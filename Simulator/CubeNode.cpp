@@ -1,6 +1,6 @@
 #include "CubeNode.h"
 
-void Buffer::bufferMin(int n) {       //share buffers are used first,when no share buffers ,
+void Buffer::bufferMin(int n) {
     r -= n;
 }
 
@@ -8,12 +8,11 @@ void Buffer::bufferPlus(int n) {
     r += n;
 }
 
-
-void CubeNode::setCoordinate(int digit_id) {
+void CubeNode::Initialize(int digit_id) {
     this->digit_id = digit_id;
     this->id = int_to_binary_str(digit_id);
+    this->fault = false;
 }
-
 
 void CubeNode::setBuffer(int buffer_size)
 {

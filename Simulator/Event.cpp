@@ -1,121 +1,37 @@
 #include"Event.h"
 
-#include<math.h>
-#include"Message.h"
-
-extern int GENERATETYPE;
-
-Event::Event(AllRouting *rout1) {
-    consumed = 0;
-    totalcir = 0;
-    messarrive = 0;
-    rout = rout1;
-    tor = rout1->cube;
-    k = rout1->k;
+Event::Event(AllRouting *route) {
+    total_circle = 0;
+    message_completion_num = 0;
+    route = route;
+    cube = route->cube;
+    n = route->n;
 }
 
+void Event::setFaultNodes(vector<int> fault_nodes_digit_ids) {
+    this->fault_nodes_digit_ids = fault_nodes_digit_ids;
+    for (auto it=fault_nodes_digit_ids.begin(); it!=fault_nodes_digit_ids.end(); ++it) {
+        cube->setFault(*it);
+    }
+    for (int i=0; i<cube->getNodesNum(); ++i) {
+        if (find(fault_nodes_digit_ids.begin(), fault_nodes_digit_ids.end(), i) ==
+            fault_nodes_digit_ids.end()) {
+            this->normal_nodes_digit_ids.push_back(i);
+        }
+    }
+}
 
-Message *Event::genMes() {   //generate a message
+Message *Event::genMsg(int dst_nodes_num) {  // generate a message
     Cube *cube = NULL;
-    if (rout != NULL) cube = rout->cube;
-    //uniform流量模式
-    if (GENERATETYPE == 1) {
-        int tempRand;
-        int src, dest;
-        tempRand = abs(rand()) % (k * k);
-        src = tempRand;
-        while (1) {
-            tempRand = abs(rand()) % (k * k);
-            if (tempRand != src) {
-                dest = tempRand;
-                break;
-            }
-        }
-        return new Message(src, dest);
-    }
-    if (GENERATETYPE == 2) {
-        int tempRand;
-        int src, dest;
-        int x;
-        int y;
-
-        while (1) {
-            tempRand = abs(rand()) % (k * k);
-            x = (*cube)[tempRand]->x;
-            y = (*cube)[tempRand]->y;
-
-            if (x != (k - 1 - y) || y != (k - 1 - x))
-                break;
-        }
-        dest = (k - 1 - y) + (k - 1 - x) * k;
-        src = tempRand;
-
-        return new Message(src, dest);
-    }
-
-    if (GENERATETYPE == 3) {
-        int tempRand;
-        int src, dest;
-        int x;
-        int y;
-
-        while (1) {
-            tempRand = abs(rand()) % (k * k);
-            x = (*cube)[tempRand]->x;
-            y = (*cube)[tempRand]->y;
-
-            if (x != y)
-                break;
-        }
-        dest = y + x * k;
-        src = tempRand;
-
-        return new Message(src, dest);
-    }
-    if (GENERATETYPE == 4) {
-        int tempRand;
-        int src, dest;
-        tempRand = abs(rand()) % 10;
-        if (tempRand != 0) {
-            tempRand = abs(rand()) % (k * k);
-            src = tempRand;
-            while (1) {
-                tempRand = abs(rand()) % (k * k);
-                if (tempRand != src) {
-                    dest = tempRand;
-                    break;
-                }
-            }
-        } else {
-            int temprand2 = abs(rand()) % 2;
-            switch (temprand2) {
-                case 0:
-                    dest = (int) ((k - 1 - k / 4) * k + k - 1 - k / 4);
-                    break;
-                case 1:
-                    dest = (int) (k / 4 * k + k / 4);
-                    break;
-
-            }
-            while (1) {
-                tempRand = abs(rand()) % (k * k);
-                if (tempRand != dest) {
-                    src = tempRand;
-                    break;
-                }
-            }
-
-
-        }
-
-
-        return new Message(src, dest);
-    }
-
-
+    if (route != NULL)
+        cube = route->cube;
+    //  采用uniform流量模式
+    vector<int> dsts = random_select(normal_nodes_digit_ids, dst_nodes_num + 1);
+    int src = dsts[dst_nodes_num];
+    return new Message(src, dsts);
 }
 
-void Event::forwardMes(Message &s) {
+void Event::forwardMsg(Message &s) {
     if (s.begintrans <= 0) s.count++;
     if (s.routpath[0].node == s.src) {
         if (s.begintrans > 0)

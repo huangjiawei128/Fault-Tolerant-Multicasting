@@ -22,8 +22,10 @@ public:
 
 
 /**************************************************
-	this class define the info of a flit in the cube node
-************************************************/
+
+NodeInfo Class define the info of a flit in the cube node
+
+**************************************************/
 class NodeInfo {
 public:
     string node_id;
@@ -37,18 +39,19 @@ public:
 
 class CubeNode {
 private:
+    int n;
     string id;
     int digit_id;
-    int n;
 
 public:
     vector<Buffer *> buffers;
     vector<Buffer *> link_buffers;
     vector<string> link_nodes;
+    bool fault;
     Cube *cube;
 
 public:
-    void setCoordinate(int digit_id);
+    void Initialize(int digit_id);
     void setBuffer(int buffer_size);
     void setLinkBuffer();
     void setCube(Cube *cube);

@@ -1,11 +1,11 @@
-#ifndef  MESS_AGE
-#define  MESS_AGE
+#ifndef  MESSAGE_H
+#define  MESSAGE_H
 #define PROCESSTIME 16
-#define TIMEOUT   50000
 
-#include<iostream>
-#include<string>
-#include<assert.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <assert.h>
 #include"CubeNode.h"
 
 using namespace std;

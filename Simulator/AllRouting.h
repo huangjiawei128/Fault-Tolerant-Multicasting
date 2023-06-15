@@ -12,7 +12,7 @@ class AllRouting {
 public:
     NodeInfo *next;
     Cube *cube;
-    int k;
+    int n;
 
     virtual NodeInfo *forward(Message &s) { return NULL; };
     // implemented by child

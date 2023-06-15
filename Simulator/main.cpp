@@ -2,6 +2,10 @@
 #include "Cube.h"
 #include "AllRouting.h"
 #include "Event.h"
+#include <math.h>
+#include <vector>
+
+using namespace std;
 
 int main() {
     int total_circle = 100000;
@@ -9,54 +13,50 @@ int main() {
     AllRouting *route = NULL;
     int n_cube = N_CUBE;
     int buffer_size = BUFFER_SIZE;
+    int nodes_num = pow(2,n_cube);
+    int fault_nodes_num = FAULT_NODES_NUM;
+    int dst_nodes_num = DST_NODES_NUM;
     Cube *cube = NULL;  //  网络结构
-    Event *s = NULL;
+    Event *event = NULL;
+    vector<int> fault_nodes_digit_ids = random_select(nodes_num, fault_nodes_num);
 
     /************************************************************************************
 
                     start simulate
 
-    ***********************************************************************************/
+    ************************************************************************************/
+    double max_throughput = 0;
+
     //  link_rate控制消息产生速率
-    int link_rate;
-    for (link_rate = 0.01; link_rate < 1;) {
-        cube = new Cube(n_cube, buffer_size); //初始化网络结构
+    for (float link_rate = 0.01; link_rate < 1;) {
+        cube = new Cube(n_cube, buffer_size);   //  初始化网络结构
         route = new Routing(cube);
-        s = new Event(route);
+        event = new Event(route);
+        event->setFaultNodes(fault_nodes_digit_ids);
 
+        float msg_per_cir = link_rate * cube->getNodesNum();
+        float flit_per_cir = msg_per_cir * MESSAGE_LENGTH;
 
-        float msgpercir = (float) (link_rate * 2 * 2 * knode /
-                                   (MESSAGE_LENGTH * 10));//每个周期每个节点产生的message数，还要除以10是因为allvecmess有10个元素
-        //saturationRate = (double)(knode * 2 * 2) / (double)(knode * knode); 在mesh网络中的饱和吞吐量
-        //msgpercir = link_rate * saturationRate * knode * knode; 每个周期每个节点产生的flit数
-
-        vector<Message *> allvecmess[10];
+        vector<Message *> messages;
         float k = 0;
-        int allmess = 0;
-
-
+        int msg_num = 0;
 
         /************************************************************************************
 
-                      genarate message
+                        genarate message
 
-    ***********************************************************************************/
-        //执行total_circle个周期，getsize(allvecmess) < threshold只是自己加的限制条件，可以有也可以删除，具体的threshold和total_circle值也可以在前面修改
-        for (int i = 0; i < total_circle && getsize(allvecmess) < threshold; i++) {
-            vector<Message *> &vecmess = allvecmess[i % 10];
-            for (k += msgpercir; k > 0; k--) {
-                allmess++;//总的产生消息数加一
-                vecmess.push_back(s->genMes());//产生消息放入	allvecmess的某个元素中
+        ************************************************************************************/
+        for (int i = 0; i < total_circle && msg_num < threshold; i++) {
+            for (k += msg_per_cir; k > 0; k--) {
+                msg_num++;  //  已产生的总消息数加一
+                messages.push_back(event->genMsg(dst_nodes_num));
             }
-
 
             /************************************************************************************
 
                             release link
 
-          ***********************************************************************************/
-
-
+            ************************************************************************************/
             for (vector<Message *>::iterator it = vecmess.begin(); it != vecmess.end(); it++) {
 
                 /* if the tail of a message shifts ,
@@ -70,94 +70,59 @@ int main() {
                 }
             }
 
-
-
-
             /************************************************************************************
 
                             forward message
 
-          ***********************************************************************************/
-            for (vector<Message *>::iterator it = vecmess.begin(); it != vecmess.end();) {
-                if ((*it)->active == false) {      // when a message arrive at its destination, it is not active
+            ************************************************************************************/
+            for (vector<Message *>::iterator it = messages.begin(); it != messages.end();) {
+                if ((*it)->active == false) {
                     delete (*it);
-                    it = vecmess.erase(it);//消息到达目的节点，将它从vecmess中删除
+                    it = messages.erase(it);    //  消息完成组播，将它从messages中删除
                 } else
-                    s->forwardMes(*(*it++));//调用Routing.cpp中函数转发消息
+                    event->forwardMsg(*(*it++));    //  调用Routing.cpp中函数转发消息
             }
         }
-
-
-
 
         /*****************************************************************************
 
                         output results
-          ****************************************************************************/
 
-        int size = getsize(allvecmess);
+        *****************************************************************************/
+        int size = messages.size();
+        double latency = event->total_circle / event->message_completion_num;
+        double throughput = link_rate * ((float) event->message_success_num / msg_num);
 
-
-        //s->totalcir/s->messarrive 平均延迟的计算公式；link_rate * ((float) s->messarrive / allmess)吞吐量的计算公式
-        cout << endl << endl << "link_rate:" << link_rate << "    arrive:  " << s->messarrive
-             << "    in the network : "
-             << size << endl << "average latency: "
-             << (s->totalcir / s->messarrive) << "  nomalized accepted traffic: "
-             << link_rate * ((float) s->messarrive / allmess)
+        cout << endl << endl <<"link_rate: " << link_rate << "     complete: " << event->message_completion_num
+             << "     in the network: " << size << endl
+             << "average latency: " << latency << "     throughput: " << throughput
              << endl << endl;
-
-        out << link_rate * ((float) s->messarrive / allmess)
-            << " " << (s->totalcir / s->messarrive) << endl;
-
-
-
-
 
         /************************************************************************************
 
-                            whether arrive at saturation point
+                        whether arrive at saturation point
 
-      ***********************************************************************************/
-        if (link_rate * ((float) s->messarrive / allmess) > max
-            && ((link_rate * ((float) s->messarrive / allmess) - max) / max) > 0.01
-            && getsize(allvecmess) < threshold)
-            max = link_rate * ((float) s->messarrive / allmess);
-
-
+        *************************************************************************************/
+        if (throughput > max_throughput
+            && (throughput - max_throughput) / max_throughput > 0.01
+            && size < threshold)
+            max_throughput = throughput;
         else {
-            cout << "Saturation point, drain......." << endl;
-            drain(allvecmess, cube, s);
-            int size = 0;
-            for (int j = 0; j < 10; j++) {
-                if (!allvecmess[j].empty()) {
-                    size += allvecmess[j].size();
-                }
-            }
-            cout << "in the network:      " << size << endl;
-            outtotest(allvecmess, cube);
-            bufferleft(cube, knode);
-            cout << "max:" << max << endl;
+            cout << "max_throughput: " << max_throughput << endl;
             break;
         }
 
-
-
-
-
         /************************************************************************************
+
                         clean
-      *******************************************************************************************/
 
-
-        for (int m = 0; m < 10; m++) {
-            for (vector<Message *>::iterator it = allvecmess[m].begin();
-                 it != allvecmess[m].end(); it++)
-                delete (*it);
+        ************************************************************************************/
+        for (auto it=messages.begin(); it != messages.end(); ++it) {
+            delete *it;
         }
         delete route;
         delete cube;
-        delete s;
-
+        delete event;
 
         if (link_rate < 0.5)
             link_rate += 0.05;
@@ -167,5 +132,3 @@ int main() {
 
     return 1;
 }
-
-
