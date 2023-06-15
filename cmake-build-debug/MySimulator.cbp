@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="MySimulator"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test">
+				<Option output="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 test"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test/fast">
+				<Option output="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 test/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Simulator">
+				<Option output="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Simulator.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 Simulator"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Simulator/fast">
+				<Option output="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Simulator.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/9.3.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 Simulator/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/AllRouting.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Cube.cpp">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Cube.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/CubeNode.cpp">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/CubeNode.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Event.cpp">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Event.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Message.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Routing.cpp">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Routing.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/common.cpp">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/common.h">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/main.cpp">
+			<Option target="Simulator"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/test.cpp">
+			<Option target="test"/>
+		</Unit>
+		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
