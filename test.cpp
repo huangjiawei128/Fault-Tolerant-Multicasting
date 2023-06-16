@@ -6,6 +6,27 @@
 
 using namespace std;
 
+int binary_str_to_int(string s) {
+    return stoi(s, 0, 2);
+}
+
+string int_to_binary_str(int i, int n) {
+    string ret = "";
+    if (i == 0) {
+        ret = "0";
+    } else {
+        while (i) {
+            ret.insert(0, to_string(i % 2));
+            i /= 2;
+        }
+    }
+    int dis = n - ret.size();
+    if (dis > 0) {
+        ret = string(dis, '0') + ret;
+    }
+    return ret;
+}
+
 template<typename T>
 vector<T> random_select(vector<T> nums, int k) {
     int n = nums.size();
@@ -48,5 +69,17 @@ int main() {
     for (int i=0; i<ret.size(); ++i) {
         cout << ret[i] << endl;
     }
+
+    cout << "----------" << endl;
+
+    for (int i=0; i<64; ++i) {
+        cout << int_to_binary_str(i, 6) << endl;
+    }
+
+    cout << "----------" << endl;
+
+    cout << binary_str_to_int("000000") << endl;
+    cout << binary_str_to_int("000100") << endl;
+    cout << binary_str_to_int("010100") << endl;
     return 0;
 }

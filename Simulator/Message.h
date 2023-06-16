@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <set>
 #include <assert.h>
 #include "CubeNode.h"
 #include "common.h"
@@ -22,7 +23,8 @@ class Message {
 public:
     int length;            //   measured by flits
     int src;                    //  the source of the message
-    vector<int> dsts;   //  the  destinations of the message
+    vector<int> dsts;   //  the destinations of the message
+    set<int> passed;    //  the passed nodes of the message
     int begin_trans;  //    when a message is generated ,it needs some time until transmitting, begintrans record this
     vector<NodeInfo>* rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
     int count;  //  the total time a message  consumed
@@ -30,11 +32,6 @@ public:
     bool finish;    //  delivery finished?
 
 public:
-    Message() {
-        src = -1;
-        dsts = {};
-    }
-
     Message(int src, vector<int> dsts) {
         length = MESSAGE_LENGTH;
         this->src = src;
@@ -54,10 +51,6 @@ public:
 
     ~Message() {
         delete[] rpath;
-    }
-
-    void setLength(int n) {
-        length = n;
     }
 };
 

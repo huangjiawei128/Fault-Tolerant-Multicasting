@@ -21,23 +21,6 @@ public:
 };
 
 
-/**************************************************
-
-NodeInfo Class define the info of a flit in the cube node
-
-**************************************************/
-class NodeInfo {
-public:
-    int cur;
-    Buffer *buffer;
-    vector<int> dsts;
-
-public:
-    NodeInfo() : cur(-1), buffer(NULL) {}
-    NodeInfo(int cur, vector<int> dsts) : cur(cur), buffer(NULL), dsts(dsts) {}
-};
-
-
 class CubeNode {
 private:
     int n;
@@ -52,10 +35,9 @@ public:
     Cube *cube;
 
 public:
-    void Initialize(int digit_id);
+    void Initialize(Cube *cube, int digit_id);
     void setBuffer(int buffer_size);
     void setLinkBuffer();
-    void setCube(Cube *cube);
     void bufferPlus(Buffer *buff, int n);
     void bufferMin(Buffer *buff, int n);
     void clearBuffer();
@@ -65,6 +47,23 @@ public:
             delete buffers[i];
         }
     }
+};
+
+
+/**************************************************
+
+NodeInfo Class define the info of a flit in the cube node
+
+**************************************************/
+class NodeInfo {
+public:
+    int cur;
+    Buffer *buffer;
+    vector<int> dsts;
+
+public:
+    NodeInfo() : cur(-1), buffer(NULL) {}
+    NodeInfo(int cur, vector<int> dsts) : cur(cur), buffer(NULL), dsts(dsts) {}
 };
 
 #endif

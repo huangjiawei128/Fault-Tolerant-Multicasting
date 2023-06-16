@@ -17,7 +17,7 @@ using namespace std;
 
 int binary_str_to_int(string s);
 
-string int_to_binary_str(int i);
+string int_to_binary_str(int i, int n=-1);
 
 char convert_01(char c);
 

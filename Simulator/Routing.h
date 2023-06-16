@@ -20,7 +20,7 @@ public:
     }
 
     vector<NodeInfo> forward(Message &s);
-    vector<NodeInfo> forward(Message &s, CubeNode *cur, vector<CubeNode *> dsts);
+    vector<NodeInfo> forward_one(Message &s, NodeInfo cur_info);
 };
 
 

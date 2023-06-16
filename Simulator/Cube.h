@@ -23,9 +23,9 @@ public:
     CubeNode *operator[](int digit_id);
     void setFault(string id);
     void setFault(int digit_id);
+    void clearAll();
     int getDimensionsNum() { return n; }
     int getNodesNum() {return nodes_num; }
-    void clearAll();
 
     ~Cube() {
         delete[] head;

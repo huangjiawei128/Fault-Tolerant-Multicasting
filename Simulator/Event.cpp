@@ -21,15 +21,13 @@ void Event::setFaultNodes(vector<int> fault_nodes_digit_ids) {
             this->normal_nodes_digit_ids.push_back(i);
         }
     }
+    assert(fault_nodes_digit_ids.size() + normal_nodes_digit_ids.size() == cube->getNodesNum());
 }
 
 Message *Event::genMsg() {  // generate a message
-    Cube *cube = NULL;
-    if (route != NULL)
-        cube = route->cube;
-    //  采用uniform流量模式
     vector<int> dsts = random_select(normal_nodes_digit_ids, DST_NODES_NUM + 1);
-    int src = dsts[DST_NODES_NUM];
+    int src = dsts.back();
+    dsts.pop_back();
     return new Message(src, dsts);
 }
 
@@ -42,51 +40,25 @@ void Event::forwardMsg(Message &s) {
     if (s.begin_trans <= 0)
         s.count++;
 
-    vector<NodeInfo> next = route->forward(s);
-    int i = 1;
-    vector<NodeInfo> temp1, temp2;
-    temp2 = s.rpath[i - 1];
-    while (i < MESSAGE_LENGTH) {
-        temp1 = s.rpath[i];
-        s.rpath[i] = temp2;
-        temp2 = temp1;
-        i++;
-    }
-    vector<NodeInfo> last_infos = s.rpath[MESSAGE_LENGTH-1];
-    //  判断尾flit可以释放的buffer，即在temp2中但不在last_infos中
-    for (auto it=temp2.begin(); it!=temp2.end(); ++it) {
-        bool find = false;
-        int temp_cur = it->cur;
-        for (auto last_it=last_infos.begin(); last_it!=last_infos.end(); ++it) {
-            if (temp_cur == last_it->cur) {
-                find = true;
-                break;
-            }
-        }
-        if (!find && it->buffer != NULL) {
-            it->buffer->bufferPlus(MESSAGE_LENGTH);
-        }
-    }
-    s.rpath[0] = next;
-
-    for (auto last_it=last_infos.begin(); last_it!=last_infos.end(); ++last_it) {
-        if (last_it->dsts.empty()) { //  某个尾flit到达终点
+    for (auto last_it=s.rpath[MESSAGE_LENGTH-1].begin(); last_it!=s.rpath[MESSAGE_LENGTH-1].end(); ) {
+        if (last_it->dsts.empty()) {    //  某个尾flit到达终点或无法决策的点
             last_it->buffer->bufferPlus(MESSAGE_LENGTH);
             int cur = last_it->cur;
             for (int i=0; i<MESSAGE_LENGTH; ++i) {
-                for (auto temp_it=s.rpath[i].begin(); temp_it!=s.rpath[i].end(); ) {
+                for (auto temp_it=s.rpath[i].begin(); temp_it!=s.rpath[i].end(); ++temp_it) {
                     if (temp_it->cur == cur) {
                         s.rpath[i].erase(temp_it);
-                    } else {
-                        ++temp_it;
+                        break;
                     }
                 }
             }
+            last_it = s.rpath[MESSAGE_LENGTH-1].erase(last_it);
+        } else {
+            ++last_it;
         }
     }
 
-    if (s.rpath[MESSAGE_LENGTH-1].size() == 0) {
-        //  组播结束
+    if (s.rpath[MESSAGE_LENGTH-1].size() == 0) {    //  组播结束
         s.finish = true;
 
         total_circle += s.count;
@@ -95,6 +67,37 @@ void Event::forwardMsg(Message &s) {
             message_success_num += 1;
         }
         total_success_delivery += DST_NODES_NUM - FAULT_NODES_NUM;
+    } else {    //  组播未结束
+        vector<NodeInfo> next = route->forward(s);
+        int i = 1;
+        vector<NodeInfo> temp1, temp2;
+        temp2 = s.rpath[i - 1];
+        while (i < MESSAGE_LENGTH) {
+            temp1 = s.rpath[i];
+            s.rpath[i] = temp2;
+            temp2 = temp1;
+            i++;
+        }
+        s.rpath[0] = next;
+
+        //  判断尾flit可以释放的buffer，即在temp2中但不在last_infos中
+        vector<NodeInfo> last_infos = s.rpath[MESSAGE_LENGTH-1];
+        for (auto temp_it=temp2.begin(); temp_it!=temp2.end(); ++temp_it) {
+            if (temp_it->buffer == NULL)
+                continue;
+
+            bool find = false;
+            int temp_cur = temp_it->cur;
+            for (auto last_it=last_infos.begin(); last_it!=last_infos.end(); ++temp_it) {
+                if (temp_cur == last_it->cur) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) {
+                temp_it->buffer->bufferPlus(MESSAGE_LENGTH);
+            }
+        }
     }
 
     return;

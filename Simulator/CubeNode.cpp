@@ -8,9 +8,11 @@ void Buffer::bufferPlus(int n) {
     r += n;
 }
 
-void CubeNode::Initialize(int digit_id) {
+void CubeNode::Initialize(Cube *cube, int digit_id) {
+    this->cube = cube;
+    this->n = cube->getDimensionsNum();
     this->digit_id = digit_id;
-    this->id = int_to_binary_str(digit_id);
+    this->id = int_to_binary_str(digit_id, n);
     this->fault = false;
 }
 
@@ -47,9 +49,4 @@ void CubeNode::clearBuffer() {
     for (int i=0; i<n; ++i) {
         buffers[i]->link_used = false;
     }
-}
-
-void CubeNode::setCube(Cube *cube) {
-    this->cube = cube;
-    this->n = cube->getDimensionsNum();
 }

@@ -15,6 +15,7 @@ int main() {
     Cube *cube = NULL;  //  网络结构
     Event *event = NULL;
     vector<int> fault_nodes_digit_ids = random_select(nodes_num, FAULT_NODES_NUM);
+    bool end = false;
 
     /************************************************************************************
 
@@ -24,14 +25,13 @@ int main() {
     double max_throughput = 0;
 
     //  link_rate控制消息产生速率
-    for (float link_rate = 0.01; link_rate < 1;) {
+    for (float link_rate = 0.01; link_rate < 1 && !end;) {
         cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络结构
         route = new Routing(cube);
         event = new Event(route);
         event->setFaultNodes(fault_nodes_digit_ids);
 
-        float msg_per_cir = link_rate * cube->getNodesNum();
-        float flit_per_cir = msg_per_cir * MESSAGE_LENGTH;
+        float msg_per_cir = link_rate * nodes_num;
 
         vector<Message *> messages;
         float k = 0;
@@ -86,7 +86,7 @@ int main() {
 
         *****************************************************************************/
         int size = messages.size();
-        double latency = event->total_circle / event->message_completion_num;
+        double latency = (float) event->total_circle / event->message_completion_num;
         double throughput = link_rate * ((float) event->message_success_num / msg_num);
 
         cout << endl << endl <<"link_rate: " << link_rate << "     complete: " << event->message_completion_num
@@ -105,7 +105,7 @@ int main() {
             max_throughput = throughput;
         else {
             cout << "max_throughput: " << max_throughput << endl;
-            break;
+            end = true;
         }
 
         /************************************************************************************

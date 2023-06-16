@@ -4,12 +4,19 @@ int binary_str_to_int(string s) {
     return stoi(s, 0, 2);
 }
 
-string int_to_binary_str(int i) {
+string int_to_binary_str(int i, int n) {
     string ret = "";
-    if (i == 0) return "0";
-    while (i) {
-        ret.insert(0, to_string(i % 2));
-        i /= 2;
+    if (i == 0) {
+        ret = "0";
+    } else {
+        while (i) {
+            ret.insert(0, to_string(i % 2));
+            i /= 2;
+        }
+    }
+    int dis = n - ret.size();
+    if (dis > 0) {
+        ret = string(dis, '0') + ret;
     }
     return ret;
 }

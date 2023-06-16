@@ -8,8 +8,7 @@ Cube::Cube(int n, int buffer_size) {
     assert(head);
 
     for (int i=0; i<nodes_num; ++i) {
-        (head + i)->Initialize(i);
-        (head + i)->setCube(this);
+        (head + i)->Initialize(this, i);
         (head + i)->setBuffer(buffer_size);
     }
 
@@ -35,7 +34,7 @@ CubeNode *Cube::operator[](int digit_id) {
 }
 
 void Cube::clearAll() {
-    for (int i = 0; i < pow(2,n); i++) {
+    for (int i = 0; i < nodes_num; i++) {
         (head + i)->clearBuffer();
     }
 }
