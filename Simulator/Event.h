@@ -1,5 +1,5 @@
-#ifndef   EVEN_T
-#define   EVEN_T
+#ifndef   EVENT_H
+#define   EVENT_H
 
 #include <math.h>
 #include <algorithm>
@@ -11,10 +11,10 @@
 
 class Event {
 public:
-    int consumed;
     double total_circle;
     int message_completion_num;
     int message_success_num;
+    int total_success_delivery;
     AllRouting *route;
     Cube *cube;
     int n;  // n-cube
@@ -22,7 +22,7 @@ public:
     vector<int> normal_nodes_digit_ids;
 
     void setFaultNodes(vector<int> fault_nodes_digit_ids);
-    Message *genMsg(int dst_nodes_num);  //  generate a message
+    Message *genMsg();  //  generate a message
     void forwardMsg(Message &);//forward a message
 
     Event(AllRouting *);

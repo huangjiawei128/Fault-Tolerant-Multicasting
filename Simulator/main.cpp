@@ -11,14 +11,10 @@ int main() {
     int total_circle = 100000;
     int threshold = 800;
     AllRouting *route = NULL;
-    int n_cube = N_CUBE;
-    int buffer_size = BUFFER_SIZE;
-    int nodes_num = pow(2,n_cube);
-    int fault_nodes_num = FAULT_NODES_NUM;
-    int dst_nodes_num = DST_NODES_NUM;
+    int nodes_num = pow(2,N_CUBE);
     Cube *cube = NULL;  //  网络结构
     Event *event = NULL;
-    vector<int> fault_nodes_digit_ids = random_select(nodes_num, fault_nodes_num);
+    vector<int> fault_nodes_digit_ids = random_select(nodes_num, FAULT_NODES_NUM);
 
     /************************************************************************************
 
@@ -29,7 +25,7 @@ int main() {
 
     //  link_rate控制消息产生速率
     for (float link_rate = 0.01; link_rate < 1;) {
-        cube = new Cube(n_cube, buffer_size);   //  初始化网络结构
+        cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络结构
         route = new Routing(cube);
         event = new Event(route);
         event->setFaultNodes(fault_nodes_digit_ids);
@@ -49,7 +45,7 @@ int main() {
         for (int i = 0; i < total_circle && msg_num < threshold; i++) {
             for (k += msg_per_cir; k > 0; k--) {
                 msg_num++;  //  已产生的总消息数加一
-                messages.push_back(event->genMsg(dst_nodes_num));
+                messages.push_back(event->genMsg());
             }
 
             /************************************************************************************
@@ -57,16 +53,16 @@ int main() {
                             release link
 
             ************************************************************************************/
-            for (vector<Message *>::iterator it = vecmess.begin(); it != vecmess.end(); it++) {
-
+            for (vector<Message *>::iterator it = messages.begin(); it != messages.end(); it++) {
                 /* if the tail of a message shifts ,
                 the physical link the message occupied should release.
-                  */
-
-                if ((*it)->releaselink == true) {
-                    assert((*it)->routpath[MESSAGE_LENGTH - 1].buff->link_used);
-                    (*it)->routpath[MESSAGE_LENGTH - 1].buff->link_used = false;//释放链路
-                    (*it)->releaselink = false;
+                */
+                vector<NodeInfo> last_node_infos = (*it)->rpath[MESSAGE_LENGTH-1];
+                for (auto info_it=last_node_infos.begin(); info_it!=last_node_infos.end(); ++info_it) {
+                    Buffer* buffer = info_it->buffer;
+                    if (buffer != NULL && buffer->link_used) {
+                        buffer->link_used = false;
+                    }
                 }
             }
 
@@ -76,7 +72,7 @@ int main() {
 
             ************************************************************************************/
             for (vector<Message *>::iterator it = messages.begin(); it != messages.end();) {
-                if ((*it)->active == false) {
+                if ((*it)->finish == true) {
                     delete (*it);
                     it = messages.erase(it);    //  消息完成组播，将它从messages中删除
                 } else

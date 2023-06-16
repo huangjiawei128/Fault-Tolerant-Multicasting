@@ -13,6 +13,7 @@ using namespace std;
 #define BUFFER_SIZE 64
 #define FAULT_NODES_NUM 5
 #define DST_NODES_NUM 10
+#define PROCESS_TIME 16
 
 int binary_str_to_int(string s);
 

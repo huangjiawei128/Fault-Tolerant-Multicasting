@@ -10,11 +10,12 @@ class NodeInfo;
 
 class AllRouting {
 public:
-    NodeInfo *next;
-    Cube *cube;
     int n;
+    Cube *cube;
 
-    virtual NodeInfo *forward(Message &s) { return NULL; };
+    vector<NodeInfo> next;
+
+    virtual vector<NodeInfo> forward(Message &s) { return {}; };
     // implemented by child
 };
 

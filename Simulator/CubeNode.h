@@ -28,12 +28,13 @@ NodeInfo Class define the info of a flit in the cube node
 **************************************************/
 class NodeInfo {
 public:
-    string node_id;
+    int cur;
     Buffer *buffer;
-    vector<string> dsts;
+    vector<int> dsts;
 
 public:
-    NodeInfo() : node_id(-1) {}
+    NodeInfo() : cur(-1), buffer(NULL) {}
+    NodeInfo(int cur, vector<int> dsts) : cur(cur), buffer(NULL), dsts(dsts) {}
 };
 
 

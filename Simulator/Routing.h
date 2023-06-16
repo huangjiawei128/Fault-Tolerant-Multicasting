@@ -1,9 +1,10 @@
-#ifndef ROUT_ING
-#define ROUT_ING
+#ifndef ROUTING_H
+#define ROUTING_H
 
 #include "AllRouting.h"
 #include "Message.h"
 #include "CubeNode.h"
+#include "assert.h"
 
 class Cube;
 
@@ -12,26 +13,14 @@ class Buffer;
 class Routing : public AllRouting {
 
 public:
-    Routing(Cube *cube1) {
-        cube = cube1;
-        k = cube1->getNode();
-        next = new NodeInfo();
+    Routing(Cube *cube) {
+        this->cube = cube;
+        n = cube->getDimensionsNum();
+        next = {};
     }
 
-    int chkWrplnk(CubeNode *cur, CubeNode *dst);//check how many wrap links need from cur to dst.
-    bool checkBuffer(Buffer *buff1, int &chn, Buffer *&record);
-
-
-    NodeInfo *forward(Message &);
-
-    NodeInfo *forward(CubeNode *cur, CubeNode *dst);//return the nextnode of cur.
-    NodeInfo *noWrapLinkrt(CubeNode *cur, CubeNode *dst);//from cur to do not need wraplink.
-    NodeInfo *oneWrapLinkrt(CubeNode *cur, CubeNode *dst);//from cur to  need  one wraplink.
-    NodeInfo *twoWrapLinkrt(CubeNode *cur, CubeNode *dst);//from cur to  need  two wraplink.
-
-
-    int prefer(Buffer *buff1, Buffer *buff2, int &chn1, int &chn2, Buffer *&buff);
-
+    vector<NodeInfo> forward(Message &s);
+    vector<NodeInfo> forward(Message &s, CubeNode *cur, vector<CubeNode *> dsts);
 };
 
 

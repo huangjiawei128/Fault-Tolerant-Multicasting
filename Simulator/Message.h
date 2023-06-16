@@ -1,12 +1,12 @@
 #ifndef  MESSAGE_H
 #define  MESSAGE_H
-#define PROCESSTIME 16
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <assert.h>
-#include"CubeNode.h"
+#include "CubeNode.h"
+#include "common.h"
 
 using namespace std;
 
@@ -16,64 +16,49 @@ class NodeInfo;
 
 
 /************************
-  Message info    
-  ******************************/
+    Message info
+************************/
 class Message {
 public:
-    int length;            // measured by flits;
-    int src;                    //The source of the message
-    int dst;
-    int timeout;                //measured by circle ,the time limit of message waits for a channel
-    int begintrans;  //when a message is generated ,it needs some time until transmitting,begintrans record this.
-    int step;       //how many steps this message has walked;
-    bool active; // check this message whether consumed or arrive at dst
-    NodeInfo *routpath; // : the ith flit now at routpath[i].node and take routpath[i].buffer
-    int count;// the total time a message  consumed
-    bool releaselink;  // if the tail of a message shifts , the physical link the message occupied should release.
+    int length;            //   measured by flits
+    int src;                    //  the source of the message
+    vector<int> dsts;   //  the  destinations of the message
+    int begin_trans;  //    when a message is generated ,it needs some time until transmitting, begintrans record this
+    vector<NodeInfo>* rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
+    int count;  //  the total time a message  consumed
+    int fault_delivery;    //  the dsts num delivered faultily
+    bool finish;    //  delivery finished?
 
-    bool turn;//  used in bubble flow control, if true, then the request escape channel need 2 buffers.
-
-
-
-
+public:
     Message() {
         src = -1;
-        dst = -1;
+        dsts = {};
     }
 
-
-    Message(int src1, int dst1) {
-        begintrans = PROCESSTIME;
-        src = src1;
-        dst = dst1;
-        routpath = new NodeInfo[MESSAGE_LENGTH];
-        assert(routpath);
-        for (int i = 0; i < MESSAGE_LENGTH; i++) {
-            routpath[i].node = src;
-            routpath[i].channel = 0;
-            routpath[i].buff = NULL;
-
-        }
-        step = 0;
-        active = true;
+    Message(int src, vector<int> dsts) {
         length = MESSAGE_LENGTH;
+        this->src = src;
+        this->dsts = dsts;
+        begin_trans = PROCESS_TIME;
+        rpath = new vector<NodeInfo>[MESSAGE_LENGTH];
+        assert(rpath);
+        vector<NodeInfo> initial_infos;
+        initial_infos.push_back(NodeInfo(src, dsts));
+        for (int i = 0; i < MESSAGE_LENGTH; i++) {
+            rpath[i] = initial_infos;
+        }
         count = 0;
-        releaselink = false;
-        turn = true;
-        timeout = 0;
-
+        fault_delivery = 0;
+        finish = false;
     }
 
     ~Message() {
-        delete[]routpath;
+        delete[] rpath;
     }
-
 
     void setLength(int n) {
         length = n;
     }
-
 };
-
 
 #endif
