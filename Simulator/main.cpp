@@ -1,6 +1,6 @@
 #include "common.h"
 #include "Cube.h"
-#include "AllRouting.h"
+#include "Routing.h"
 #include "Event.h"
 #include <math.h>
 #include <vector>
@@ -8,13 +8,13 @@
 using namespace std;
 
 int main() {
-    int total_circle = 100000;
+    int total_circle = 10000;
     int threshold = 800;
-    AllRouting *route = NULL;
-    int nodes_num = pow(2,N_CUBE);
+    Routing *route = NULL;
+    int node_num = pow(2,N_CUBE);
     Cube *cube = NULL;  //  网络结构
     Event *event = NULL;
-    vector<int> fault_nodes_digit_ids = random_select(nodes_num, FAULT_NODES_NUM);
+    vector<int> fault_nodes_digit_ids = random_select(node_num, FAULT_NODES_NUM);
     bool end = false;
 
     /************************************************************************************
@@ -25,13 +25,13 @@ int main() {
     double max_throughput = 0;
 
     //  link_rate控制消息产生速率
-    for (float link_rate = 0.01; link_rate < 1 && !end;) {
+    for (float link_rate = 0.002; link_rate < 1 && !end;) {
         cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络结构
         route = new Routing(cube);
         event = new Event(route);
         event->setFaultNodes(fault_nodes_digit_ids);
 
-        float msg_per_cir = link_rate * nodes_num;
+        float msg_per_cir = link_rate * node_num;
 
         vector<Message *> messages;
         float k = 0;
@@ -120,10 +120,7 @@ int main() {
         delete cube;
         delete event;
 
-        if (link_rate < 0.5)
-            link_rate += 0.05;
-        else
-            link_rate += 0.02;
+        link_rate += 0.002;
     }
 
     return 1;

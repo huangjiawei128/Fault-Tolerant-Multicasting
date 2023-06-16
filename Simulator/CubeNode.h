@@ -30,7 +30,6 @@ private:
 public:
     vector<Buffer *> buffers;
     vector<Buffer *> link_buffers;
-    vector<string> link_nodes;
     bool fault;
     Cube *cube;
 
@@ -64,6 +63,7 @@ public:
 public:
     NodeInfo() : cur(-1), buffer(NULL) {}
     NodeInfo(int cur, vector<int> dsts) : cur(cur), buffer(NULL), dsts(dsts) {}
+    NodeInfo(int cur, Buffer* buffer, vector<int> dsts) : cur(cur), buffer(buffer), dsts(dsts) {}
 };
 
 #endif

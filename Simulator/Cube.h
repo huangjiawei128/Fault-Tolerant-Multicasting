@@ -13,7 +13,7 @@ class CubeNode;
 class Cube {
 private:
     int n;
-    int nodes_num;
+    int node_num;
     int buffer_size;
     CubeNode *head;
 
@@ -25,7 +25,7 @@ public:
     void setFault(int digit_id);
     void clearAll();
     int getDimensionsNum() { return n; }
-    int getNodesNum() {return nodes_num; }
+    int getNodeNum() {return node_num; }
 
     ~Cube() {
         delete[] head;

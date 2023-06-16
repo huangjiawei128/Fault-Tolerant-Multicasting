@@ -17,9 +17,11 @@ using namespace std;
 
 int binary_str_to_int(string s);
 
-string int_to_binary_str(int i, int n=-1);
+string int_to_binary_str(int i, int n=N_CUBE);
 
 char convert_01(char c);
+
+string convert_01_by_pos(string str, int pos);
 
 template<typename T>
 vector<T> random_select(vector<T> nums, int k);

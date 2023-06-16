@@ -27,6 +27,12 @@ char convert_01(char c) {
     return '0';
 }
 
+string convert_01_by_pos(string str, int pos) {
+    string ret = str;
+    ret[pos] = convert_01(ret[pos]);
+    return ret;
+}
+
 template<typename T>
 vector<T> random_select(vector<T> nums, int k) {
     int n = nums.size();

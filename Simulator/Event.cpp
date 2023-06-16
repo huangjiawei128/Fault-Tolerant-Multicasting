@@ -1,13 +1,13 @@
 #include"Event.h"
 
-Event::Event(AllRouting *route) {
-    total_circle = 0;
-    message_completion_num = 0;
-    message_success_num = 0;
-    total_success_delivery = 0;
-    route = route;
-    cube = route->cube;
-    n = route->n;
+Event::Event(Routing *route) {
+    this->total_circle = 0;
+    this->message_completion_num = 0;
+    this->message_success_num = 0;
+    this->total_success_delivery = 0;
+    this->route = route;
+    this->cube = route->cube;
+    this->n = route->n;
 }
 
 void Event::setFaultNodes(vector<int> fault_nodes_digit_ids) {
@@ -15,13 +15,13 @@ void Event::setFaultNodes(vector<int> fault_nodes_digit_ids) {
     for (auto it=fault_nodes_digit_ids.begin(); it!=fault_nodes_digit_ids.end(); ++it) {
         cube->setFault(*it);
     }
-    for (int i=0; i<cube->getNodesNum(); ++i) {
+    for (int i=0; i<cube->getNodeNum(); ++i) {
         if (find(fault_nodes_digit_ids.begin(), fault_nodes_digit_ids.end(), i) ==
             fault_nodes_digit_ids.end()) {
             this->normal_nodes_digit_ids.push_back(i);
         }
     }
-    assert(fault_nodes_digit_ids.size() + normal_nodes_digit_ids.size() == cube->getNodesNum());
+    assert(fault_nodes_digit_ids.size() + normal_nodes_digit_ids.size() == cube->getNodeNum());
 }
 
 Message *Event::genMsg() {  // generate a message
@@ -42,9 +42,10 @@ void Event::forwardMsg(Message &s) {
 
     for (auto last_it=s.rpath[MESSAGE_LENGTH-1].begin(); last_it!=s.rpath[MESSAGE_LENGTH-1].end(); ) {
         if (last_it->dsts.empty()) {    //  某个尾flit到达终点或无法决策的点
-            last_it->buffer->bufferPlus(MESSAGE_LENGTH);
+            if (last_it->buffer != NULL)
+                last_it->buffer->bufferPlus(MESSAGE_LENGTH);
             int cur = last_it->cur;
-            for (int i=0; i<MESSAGE_LENGTH; ++i) {
+            for (int i=0; i<MESSAGE_LENGTH-1; ++i) {
                 for (auto temp_it=s.rpath[i].begin(); temp_it!=s.rpath[i].end(); ++temp_it) {
                     if (temp_it->cur == cur) {
                         s.rpath[i].erase(temp_it);
@@ -88,7 +89,7 @@ void Event::forwardMsg(Message &s) {
 
             bool find = false;
             int temp_cur = temp_it->cur;
-            for (auto last_it=last_infos.begin(); last_it!=last_infos.end(); ++temp_it) {
+            for (auto last_it=last_infos.begin(); last_it!=last_infos.end(); ++last_it) {
                 if (temp_cur == last_it->cur) {
                     find = true;
                     break;

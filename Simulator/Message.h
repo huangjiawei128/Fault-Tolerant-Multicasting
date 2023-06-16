@@ -26,7 +26,7 @@ public:
     vector<int> dsts;   //  the destinations of the message
     set<int> passed;    //  the passed nodes of the message
     int begin_trans;  //    when a message is generated ,it needs some time until transmitting, begintrans record this
-    vector<NodeInfo>* rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
+    vector< vector<NodeInfo>> rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
     int count;  //  the total time a message  consumed
     int fault_delivery;    //  the dsts num delivered faultily
     bool finish;    //  delivery finished?
@@ -37,12 +37,10 @@ public:
         this->src = src;
         this->dsts = dsts;
         begin_trans = PROCESS_TIME;
-        rpath = new vector<NodeInfo>[MESSAGE_LENGTH];
-        assert(rpath);
         vector<NodeInfo> initial_infos;
         initial_infos.push_back(NodeInfo(src, dsts));
         for (int i = 0; i < MESSAGE_LENGTH; i++) {
-            rpath[i] = initial_infos;
+            rpath.push_back(initial_infos);
         }
         count = 0;
         fault_delivery = 0;
@@ -50,7 +48,7 @@ public:
     }
 
     ~Message() {
-        delete[] rpath;
+
     }
 };
 

@@ -4,28 +4,32 @@
 CMakeFiles/Simulator.dir/Simulator/Cube.cpp.o: \
  ../Simulator/Cube.cpp \
  ../Simulator/Cube.h \
- ../Simulator/CubeNode.h
+ ../Simulator/CubeNode.h \
+ ../Simulator/common.h
 CMakeFiles/Simulator.dir/Simulator/CubeNode.cpp.o: \
  ../Simulator/Cube.h \
  ../Simulator/CubeNode.cpp \
- ../Simulator/CubeNode.h
+ ../Simulator/CubeNode.h \
+ ../Simulator/common.h
 CMakeFiles/Simulator.dir/Simulator/Event.cpp.o: \
- ../Simulator/Allrouting.h \
  ../Simulator/Cube.h \
  ../Simulator/CubeNode.h \
  ../Simulator/Event.cpp \
  ../Simulator/Event.h \
  ../Simulator/Message.h \
- ../Simulator/Routing.h
+ ../Simulator/Routing.h \
+ ../Simulator/common.h
 CMakeFiles/Simulator.dir/Simulator/Routing.cpp.o: \
- ../Simulator/Allrouting.h \
  ../Simulator/Cube.h \
  ../Simulator/CubeNode.h \
  ../Simulator/Message.h \
  ../Simulator/Routing.cpp \
- ../Simulator/Routing.h
+ ../Simulator/Routing.h \
+ ../Simulator/common.h
+CMakeFiles/Simulator.dir/Simulator/common.cpp.o: \
+ ../Simulator/common.cpp \
+ ../Simulator/common.h
 CMakeFiles/Simulator.dir/Simulator/main.cpp.o: \
- ../Simulator/Allrouting.h \
  ../Simulator/Cube.h \
  ../Simulator/CubeNode.h \
  ../Simulator/Event.h \
@@ -33,12 +37,3 @@ CMakeFiles/Simulator.dir/Simulator/main.cpp.o: \
  ../Simulator/Routing.h \
  ../Simulator/common.h \
  ../Simulator/main.cpp
-CMakeFiles/Simulator.dir/Simulator/testfuc.cpp.o: \
- ../Simulator/Allrouting.h \
- ../Simulator/Cube.h \
- ../Simulator/CubeNode.h \
- ../Simulator/Event.h \
- ../Simulator/Message.h \
- ../Simulator/Routing.h \
- ../Simulator/common.h \
- ../Simulator/testfuc.cpp

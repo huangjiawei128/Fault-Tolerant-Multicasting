@@ -3,6 +3,7 @@
 #include <math.h>
 #include <assert.h>
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -81,5 +82,17 @@ int main() {
     cout << binary_str_to_int("000000") << endl;
     cout << binary_str_to_int("000100") << endl;
     cout << binary_str_to_int("010100") << endl;
+
+    cout << "----------" << endl;
+
+    unordered_map<int, vector<string>> delivery_record;
+    for (int i=-1; i<6; ++i) {
+        delivery_record.insert(make_pair(i, vector<string>{}));
+    }
+    (delivery_record.find(3)->second).push_back("abc");
+    (delivery_record.find(3)->second).push_back("def");
+    for (int i=0; i<delivery_record[3].size(); ++i)
+        cout << delivery_record[3][i] << endl;
+
     return 0;
 }

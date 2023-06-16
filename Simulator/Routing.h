@@ -1,7 +1,7 @@
 #ifndef ROUTING_H
 #define ROUTING_H
 
-#include "AllRouting.h"
+#include <unordered_map>
 #include "Message.h"
 #include "CubeNode.h"
 #include "assert.h"
@@ -10,7 +10,11 @@ class Cube;
 
 class Buffer;
 
-class Routing : public AllRouting {
+class Routing {
+public:
+    int n;
+    Cube *cube;
+    vector<NodeInfo> next;
 
 public:
     Routing(Cube *cube) {
@@ -19,8 +23,10 @@ public:
         next = {};
     }
 
+    void takeBuffer(Buffer* buffer);
+    bool testBuffer(Buffer* buffer);
     vector<NodeInfo> forward(Message &s);
-    vector<NodeInfo> forward_one(Message &s, NodeInfo cur_info);
+    vector<NodeInfo> forwardOne(Message &s, NodeInfo cur_info);
 };
 
 

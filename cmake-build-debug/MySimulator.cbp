@@ -126,9 +126,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/AllRouting.h">
-			<Option target="Simulator"/>
-		</Unit>
 		<Unit filename="/cygdrive/d/学习/高性能计算机互连理论与方法/高性能课程大作业/MySimulator/Simulator/Cube.cpp">
 			<Option target="Simulator"/>
 		</Unit>

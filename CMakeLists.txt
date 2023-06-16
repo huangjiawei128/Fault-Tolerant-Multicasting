@@ -12,7 +12,6 @@ add_executable(Simulator
         Simulator/CubeNode.cpp
         Simulator/Cube.h
         Simulator/Cube.cpp
-        Simulator/AllRouting.h
         Simulator/Routing.h
         Simulator/Routing.cpp
         Simulator/Message.h

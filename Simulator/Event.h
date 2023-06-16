@@ -16,17 +16,17 @@ public:
     int message_completion_num;
     int message_success_num;
     int total_success_delivery;
-    AllRouting *route;
+    Routing *route;
     Cube *cube;
     int n;
     vector<int> fault_nodes_digit_ids;
     vector<int> normal_nodes_digit_ids;
 
 public:
-    Event(AllRouting *route);
+    Event(Routing *route);
     void setFaultNodes(vector<int> fault_nodes_digit_ids);
     Message *genMsg();  //  generate a message
-    void forwardMsg(Message &);//forward a message
+    void forwardMsg(Message &s);//forward a message
 };
 
 

@@ -3,16 +3,16 @@
 Cube::Cube(int n, int buffer_size) {
     this->n = n;
     this->buffer_size = buffer_size;
-    nodes_num = pow(2,n);
-    head = new CubeNode[nodes_num];
+    node_num = pow(2,n);
+    head = new CubeNode[node_num];
     assert(head);
 
-    for (int i=0; i<nodes_num; ++i) {
+    for (int i=0; i<node_num; ++i) {
         (head + i)->Initialize(this, i);
         (head + i)->setBuffer(buffer_size);
     }
 
-    for (int i=0; i<nodes_num; ++i) {
+    for (int i=0; i<node_num; ++i) {
         (head + i)->setLinkBuffer();
     }
 }
@@ -34,7 +34,7 @@ CubeNode *Cube::operator[](int digit_id) {
 }
 
 void Cube::clearAll() {
-    for (int i = 0; i < nodes_num; i++) {
+    for (int i = 0; i < node_num; i++) {
         (head + i)->clearBuffer();
     }
 }
