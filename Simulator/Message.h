@@ -26,7 +26,7 @@ public:
     vector<int> dsts;   //  the destinations of the message
     set<int> passed;    //  the passed nodes of the message
     int begin_trans;  //    when a message is generated ,it needs some time until transmitting, begintrans record this
-    vector< vector<NodeInfo>> rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
+    vector<vector<NodeInfo>> rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
     int count;  //  the total time a message  consumed
     int fault_delivery;    //  the dsts num delivered faultily
     bool finish;    //  delivery finished?

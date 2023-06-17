@@ -16,21 +16,20 @@ void CubeNode::Initialize(Cube *cube, int digit_id) {
     this->fault = false;
 }
 
-void CubeNode::setBuffer(int buffer_size)
-{
-    for (int i=0; i<n; ++i) {
+void CubeNode::setBuffer(int buffer_size) {
+    for (int i = 0; i < n; ++i) {
         buffers.push_back(new Buffer());
     }
 
     clearBuffer();
 
-    for (int i=0; i<n; ++i) {
+    for (int i = 0; i < n; ++i) {
         buffers[i]->r = buffer_size;
     }
 }
 
 void CubeNode::setLinkBuffer() {
-    for (int i=0; i<n; ++i) {
+    for (int i = 0; i < n; ++i) {
         string neigh_id = id;
         neigh_id[i] = convert_01(neigh_id[i]);
         link_buffers.push_back((*cube)[neigh_id]->buffers[i]);
@@ -46,7 +45,7 @@ void CubeNode::bufferMin(Buffer *buff, int n) {
 }
 
 void CubeNode::clearBuffer() {
-    for (int i=0; i<n; ++i) {
+    for (int i = 0; i < n; ++i) {
         buffers[i]->link_used = false;
     }
 }

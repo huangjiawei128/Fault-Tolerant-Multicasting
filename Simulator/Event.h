@@ -24,10 +24,14 @@ public:
 
 public:
     Event(Routing *route);
-    void setFaultNodes(vector<int> fault_nodes_digit_ids);
-    Message *genMsg();  //  generate a message
-    void forwardMsg(Message &s);//forward a message
-};
 
+    void setFaultNodes(vector<int> fault_nodes_digit_ids);
+
+    void setMscsForCube();
+
+    Message *genMsg();  //  generate a message
+
+    void forwardMsg(Message &s);    //  forward a message
+};
 
 #endif

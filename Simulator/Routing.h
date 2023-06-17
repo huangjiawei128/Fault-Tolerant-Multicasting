@@ -1,10 +1,12 @@
 #ifndef ROUTING_H
 #define ROUTING_H
 
+#include <map>
 #include <unordered_map>
+#include <assert.h>
+#include <algorithm>
 #include "Message.h"
 #include "CubeNode.h"
-#include "assert.h"
 
 class Cube;
 
@@ -23,11 +25,15 @@ public:
         next = {};
     }
 
-    void takeBuffer(Buffer* buffer);
-    bool testBuffer(Buffer* buffer);
+    void takeBuffer(Buffer *buffer);
+
+    bool testBuffer(Buffer *buffer);
+
+    vector<int> getPossibleDirection(int cur, int dst);
+
     vector<NodeInfo> forward(Message &s);
+
     vector<NodeInfo> forwardOne(Message &s, NodeInfo cur_info);
 };
-
 
 #endif

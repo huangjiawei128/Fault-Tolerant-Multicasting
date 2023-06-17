@@ -8,10 +8,8 @@
 using namespace std;
 
 int main() {
-    int total_circle = 10000;
-    int threshold = 800;
     Routing *route = NULL;
-    int node_num = pow(2,N_CUBE);
+    int node_num = pow(2, N_CUBE);
     Cube *cube = NULL;  //  网络结构
     Event *event = NULL;
     vector<int> fault_nodes_digit_ids = random_select(node_num, FAULT_NODES_NUM);
@@ -30,6 +28,7 @@ int main() {
         route = new Routing(cube);
         event = new Event(route);
         event->setFaultNodes(fault_nodes_digit_ids);
+        event->setMscsForCube();
 
         float msg_per_cir = link_rate * node_num;
 
@@ -42,7 +41,7 @@ int main() {
                         genarate message
 
         ************************************************************************************/
-        for (int i = 0; i < total_circle && msg_num < threshold; i++) {
+        for (int i = 0; i < TOTAL_CIRCLE && msg_num < MSG_THRESHOLD; i++) {
             for (k += msg_per_cir; k > 0; k--) {
                 msg_num++;  //  已产生的总消息数加一
                 messages.push_back(event->genMsg());
@@ -57,9 +56,9 @@ int main() {
                 /* if the tail of a message shifts ,
                 the physical link the message occupied should release.
                 */
-                vector<NodeInfo> last_node_infos = (*it)->rpath[MESSAGE_LENGTH-1];
-                for (auto info_it=last_node_infos.begin(); info_it!=last_node_infos.end(); ++info_it) {
-                    Buffer* buffer = info_it->buffer;
+                vector<NodeInfo> last_node_infos = (*it)->rpath[MESSAGE_LENGTH - 1];
+                for (auto info_it = last_node_infos.begin(); info_it != last_node_infos.end(); ++info_it) {
+                    Buffer *buffer = info_it->buffer;
                     if (buffer != NULL && buffer->link_used) {
                         buffer->link_used = false;
                     }
@@ -88,9 +87,10 @@ int main() {
         int size = messages.size();
         double latency = (float) event->total_circle / event->message_completion_num;
         double throughput = link_rate * ((float) event->message_success_num / msg_num);
+        double fail_percent = (double)event->message_success_num / event->message_completion_num;
 
-        cout << endl << endl <<"link_rate: " << link_rate << "     complete: " << event->message_completion_num
-             << "     in the network: " << size << endl
+        cout << endl << endl << "link_rate: " << link_rate << "     complete: " << event->message_completion_num
+             << "     in the network: " << size << "    fail percent: " << fail_percent << endl
              << "average latency: " << latency << "     throughput: " << throughput
              << endl << endl;
 
@@ -101,7 +101,7 @@ int main() {
         *************************************************************************************/
         if (throughput > max_throughput
             && (throughput - max_throughput) / max_throughput > 0.01
-            && size < threshold)
+            && size < MSG_THRESHOLD)
             max_throughput = throughput;
         else {
             cout << "max_throughput: " << max_throughput << endl;
@@ -113,7 +113,7 @@ int main() {
                         clean
 
         ************************************************************************************/
-        for (auto it=messages.begin(); it != messages.end(); ++it) {
+        for (auto it = messages.begin(); it != messages.end(); ++it) {
             delete *it;
         }
         delete route;

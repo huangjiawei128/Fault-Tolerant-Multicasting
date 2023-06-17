@@ -38,8 +38,8 @@ vector<T> random_select(vector<T> nums, int k) {
     int n = nums.size();
     assert(k <= n);
     vector<T> ret;
-    for (int i=0; i<k; ++i) {
-        int idx = abs(rand()) % (n-i);
+    for (int i = 0; i < k; ++i) {
+        int idx = abs(rand()) % (n - i);
         ret.push_back(nums[idx]);
         nums.erase(nums.begin() + idx);
     }
@@ -49,7 +49,7 @@ vector<T> random_select(vector<T> nums, int k) {
 vector<int> random_select(int n, int k) {
     assert(k <= n);
     vector<int> nums;
-    for (int i=0; i<n; ++i) {
+    for (int i = 0; i < n; ++i) {
         nums.push_back(i);
     }
     return random_select(nums, k);
