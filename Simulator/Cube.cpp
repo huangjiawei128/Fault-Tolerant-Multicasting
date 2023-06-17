@@ -303,3 +303,14 @@ vector<string> Cube::getSrcNodeNeighsOutMinPath(string src_id, string dst_id) {
     }
     return ret;
 }
+
+int Cube::getFirstDiffDirection(string node_id1, string node_id2) {
+    int ret = -1;
+    for (int i=0; i<n; ++i) {
+        if (node_id1[i] != node_id2[i]) {
+            ret = i;
+            break;
+        }
+    }
+    return ret;
+}

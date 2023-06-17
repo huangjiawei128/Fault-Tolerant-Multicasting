@@ -11,11 +11,11 @@ using namespace std;
 #define N_CUBE 6
 #define MESSAGE_LENGTH 16
 #define BUFFER_SIZE 64
-#define FAULT_NODES_NUM 0
+#define FAULT_NODES_NUM 10
 #define DST_NODES_NUM 10
 #define PROCESS_TIME 16
 
-#define TOTAL_CIRCLE 10000
+#define TOTAL_CYCLE 10000
 #define MSG_THRESHOLD 1000
 
 int binary_str_to_int(string s);

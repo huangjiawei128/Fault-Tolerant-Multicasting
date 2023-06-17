@@ -33,7 +33,6 @@ Message *Event::genMsg() {  // generate a message
     int src = dsts.back();
     dsts.pop_back();
     Message *ret = new Message(src, dsts);
-    ret->passed.insert(src);
     return ret;
 }
 

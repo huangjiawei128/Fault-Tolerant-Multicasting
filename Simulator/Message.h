@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <set>
+#include <unordered_set>
 #include <assert.h>
 #include "CubeNode.h"
 #include "common.h"
@@ -24,7 +24,6 @@ public:
     int length;            //   measured by flits
     int src;                    //  the source of the message
     vector<int> dsts;   //  the destinations of the message
-    set<int> passed;    //  the passed nodes of the message
     int begin_trans;  //    when a message is generated ,it needs some time until transmitting, begintrans record this
     vector<vector<NodeInfo>> rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
     int count;  //  the total time a message  consumed

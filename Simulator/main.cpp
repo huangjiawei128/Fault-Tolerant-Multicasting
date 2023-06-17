@@ -10,9 +10,9 @@ using namespace std;
 int main() {
     Routing *route = NULL;
     int node_num = pow(2, N_CUBE);
-    Cube *cube = NULL;  //  网络结构
+    Cube *cube = NULL;
     Event *event = NULL;
-    vector<int> fault_nodes_digit_ids = random_select(node_num, FAULT_NODES_NUM);
+    vector<int> fault_nodes_digit_ids = random_select(node_num, FAULT_NODES_NUM);   //  随机挑选故障节点编号
     bool end = false;
 
     /************************************************************************************
@@ -24,13 +24,13 @@ int main() {
 
     //  link_rate控制消息产生速率
     for (float link_rate = 0.002; link_rate < 1 && !end;) {
-        cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络结构
-        route = new Routing(cube);
-        event = new Event(route);
-        event->setFaultNodes(fault_nodes_digit_ids);
-        event->setMscsForCube();
+        cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络拓扑模块
+        route = new Routing(cube);  //  初始化路由模块
+        event = new Event(route);   //  初始化事件模块
+        event->setFaultNodes(fault_nodes_digit_ids);    //  设置故障节点
+        event->setMscsForCube();    //  生成网络拓扑中的局部信息（容错算法中使用）
 
-        float msg_per_cir = link_rate * node_num;
+        float msg_per_cir = link_rate * node_num;   //  link rate(message/node/cycle)表示单位时间内每个节点产生的消息数
 
         vector<Message *> messages;
         float k = 0;
@@ -41,10 +41,10 @@ int main() {
                         genarate message
 
         ************************************************************************************/
-        for (int i = 0; i < TOTAL_CIRCLE && msg_num < MSG_THRESHOLD; i++) {
+        for (int i = 0; i < TOTAL_CYCLE && msg_num < MSG_THRESHOLD; i++) {
             for (k += msg_per_cir; k > 0; k--) {
-                msg_num++;  //  已产生的总消息数加一
-                messages.push_back(event->genMsg());
+                msg_num++;
+                messages.push_back(event->genMsg());    //  调用事件模块生成消息
             }
 
             /************************************************************************************
@@ -53,9 +53,7 @@ int main() {
 
             ************************************************************************************/
             for (vector<Message *>::iterator it = messages.begin(); it != messages.end(); it++) {
-                /* if the tail of a message shifts ,
-                the physical link the message occupied should release.
-                */
+                //  在尾flit移动的场景下释放先前所占据的链路
                 vector<NodeInfo> last_node_infos = (*it)->rpath[MESSAGE_LENGTH - 1];
                 for (auto info_it = last_node_infos.begin(); info_it != last_node_infos.end(); ++info_it) {
                     Buffer *buffer = info_it->buffer;
@@ -73,9 +71,9 @@ int main() {
             for (vector<Message *>::iterator it = messages.begin(); it != messages.end();) {
                 if ((*it)->finish == true) {
                     delete (*it);
-                    it = messages.erase(it);    //  消息完成组播，将它从messages中删除
+                    it = messages.erase(it);    //  消息完成组播，将它从消息列表中删除
                 } else
-                    event->forwardMsg(*(*it++));    //  调用Routing.cpp中函数转发消息
+                    event->forwardMsg(*(*it++));    //  调用事件模块在当前cycle内以flit为单位转发消息
             }
         }
 
@@ -86,8 +84,11 @@ int main() {
         *****************************************************************************/
         int size = messages.size();
         double latency = (float) event->total_circle / event->message_completion_num;
+        //  latency(cycle) = 完成组播的消息消耗的总circle数 / 完成组播的消息数
         double throughput = link_rate * ((float) event->message_success_num / msg_num);
-        double fail_percent = (double)event->message_success_num / event->message_completion_num;
+        //  throughput(message/node/cycle) = link_rate * (成功完成组播的消息数 / 已产生的总消息数)
+        double fail_percent = 1 - (double)event->message_success_num / event->message_completion_num;
+        //  fail percent = 1 - 成功完成组播的消息数 / 完成组播的消息数
 
         cout << endl << endl << "link_rate: " << link_rate << "     complete: " << event->message_completion_num
              << "     in the network: " << size << "    fail percent: " << fail_percent << endl
@@ -99,6 +100,7 @@ int main() {
                         whether arrive at saturation point
 
         *************************************************************************************/
+        //  throughput达到最大值，即饱和点时，停止迭代
         if (throughput > max_throughput
             && (throughput - max_throughput) / max_throughput > 0.01
             && size < MSG_THRESHOLD)

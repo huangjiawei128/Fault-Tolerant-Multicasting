@@ -66,13 +66,22 @@ public:
     int cur;
     Buffer *buffer;
     vector<int> dsts;
+    unordered_set<int> passed;
 
 public:
     NodeInfo() : cur(-1), buffer(NULL) {}
 
-    NodeInfo(int cur, vector<int> dsts) : cur(cur), buffer(NULL), dsts(dsts) {}
+    NodeInfo(int cur, vector<int> dsts, unordered_set<int> before_passed={}) :
+        cur(cur), buffer(NULL), dsts(dsts) {
+        passed = before_passed;
+        passed.insert(cur);
+    }
 
-    NodeInfo(int cur, Buffer *buffer, vector<int> dsts) : cur(cur), buffer(buffer), dsts(dsts) {}
+    NodeInfo(int cur, Buffer *buffer, vector<int> dsts, unordered_set<int> before_passed={}) :
+        cur(cur), buffer(buffer), dsts(dsts) {
+        passed = before_passed;
+        passed.insert(cur);
+    }
 };
 
 #endif

@@ -80,6 +80,8 @@ public:
     vector<string> getSrcNodeNeighsInMinPath(string src_id, string dst_id);
 
     vector<string> getSrcNodeNeighsOutMinPath(string src_id, string dst_id);
+
+    int getFirstDiffDirection(string node_id1, string node_id2);
 };
 
 #endif

@@ -13,7 +13,7 @@ void Routing::takeBuffer(Buffer *buffer) {
     buffer->r -= MESSAGE_LENGTH;
 }
 
-vector<int> Routing::getPossibleDirection(int cur, int dst) {
+vector<int> Routing::getPossibleDirection(int cur, int dst, unordered_set<int>& passed) {
     vector<int> ret = {};
     string cur_id = int_to_binary_str(cur, n);
     string dst_id = int_to_binary_str(dst, n);
@@ -49,7 +49,10 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
         //  Pri1：最小路径中的locally safe邻居v’，使得存在一个msc包含v’和u
         if (!l_safe_neighs.empty()) {
             for (auto it = l_safe_neighs.begin(); it!=l_safe_neighs.end(); ++it) {
-                ret.push_back(binary_str_to_int(*it));
+                if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                    continue;
+                }
+                ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
             }
         }
 
@@ -58,7 +61,10 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
             if (!l_ordinarily_unsafe_neighs.empty()) {
                 for (auto it = l_ordinarily_unsafe_neighs.begin();
                     it!=l_ordinarily_unsafe_neighs.end(); ++it) {
-                    ret.push_back(binary_str_to_int(*it));
+                    if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                        continue;
+                    }
+                    ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                 }
             }
         }
@@ -67,8 +73,11 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
         if (ret.empty()) {
             if (!l_strongly_unsafe_neighs.empty()) {
                 for (auto it = l_strongly_unsafe_neighs.begin();
-                     it!=l_strongly_unsafe_neighs.end(); ++it) {
-                    ret.push_back(binary_str_to_int(*it));
+                    it!=l_strongly_unsafe_neighs.end(); ++it) {
+                    if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                        continue;
+                    }
+                    ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                 }
             }
         }
@@ -81,9 +90,12 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
         if (dis <= 2) { //  H(v,u) ≤ 2
             //  Pri1：最小路径中的fault-free邻居
             for (auto it=neighs_in_min_path.begin(); it!=neighs_in_min_path.end(); ++it) {
+                if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                    continue;
+                }
                 NodeState temp_state = node_state_map[*it];
                 if (temp_state != FAULTY) {
-                    ret.push_back(binary_str_to_int(*it));
+                    ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                 }
             }
 
@@ -92,6 +104,9 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
                 int max_local_safety_value = -1;
                 vector<string> possible_neigh_ids = {};
                 for (auto it=neighs_out_min_path.begin(); it!=neighs_out_min_path.end(); ++it) {
+                    if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                        continue;
+                    }
                     NodeState temp_state = node_state_map[*it];
                     if (temp_state == FAULTY) {
                         continue;
@@ -107,33 +122,42 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
                 }
 
                 for (auto it = possible_neigh_ids.begin(); it != possible_neigh_ids.end(); ++it) {
-                    ret.push_back(binary_str_to_int(*it));
+                    ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                 }
             }
         } else {    //  H(v,u) ≥ 3
             if (cur_state == L_SAFE) {  //  v为locally safe
                 //  Pri1：最小路径中的locally safe邻居
                 for (auto it=neighs_in_min_path.begin(); it!=neighs_in_min_path.end(); ++it) {
+                    if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                        continue;
+                    }
                     NodeState temp_state = node_state_map[*it];
                     if (temp_state == L_SAFE) {
-                        ret.push_back(binary_str_to_int(*it));
+                        ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                     }
                 }
             } else if (cur_state == L_ORDINARILY_UNSAFE) {  //  v为locally ordinarily unsafe
                 //  Pri1：最小路径中的locally safe邻居
                 for (auto it=neighs_in_min_path.begin(); it!=neighs_in_min_path.end(); ++it) {
+                    if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                        continue;
+                    }
                     NodeState temp_state = node_state_map[*it];
                     if (temp_state == L_SAFE) {
-                        ret.push_back(binary_str_to_int(*it));
+                        ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                     }
                 }
 
                 //  Pri2：最小路径中的locally ordinarily unsafe邻居
                 if (ret.empty()) {
                     for (auto it=neighs_in_min_path.begin(); it!=neighs_in_min_path.end(); ++it) {
+                        if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                            continue;
+                        }
                         NodeState temp_state = node_state_map[*it];
                         if (temp_state == L_ORDINARILY_UNSAFE) {
-                            ret.push_back(binary_str_to_int(*it));
+                            ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                         }
                     }
                 }
@@ -141,27 +165,36 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
                 //  Pri3：非最小路径中的locally safe邻居
                 if (ret.empty()) {
                     for (auto it=neighs_out_min_path.begin(); it!=neighs_out_min_path.end(); ++it) {
+                        if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                            continue;
+                        }
                         NodeState temp_state = node_state_map[*it];
                         if (temp_state == L_SAFE) {
-                            ret.push_back(binary_str_to_int(*it));
+                            ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                         }
                     }
                 }
             } else if (cur_state == L_STRONGLY_UNSAFE) {    //  v为locally strongly unsafe
                 //  Pri1：最小路径中的locally ordinarily unsafe邻居
                 for (auto it=neighs_in_min_path.begin(); it!=neighs_in_min_path.end(); ++it) {
+                    if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                        continue;
+                    }
                     NodeState temp_state = node_state_map[*it];
                     if (temp_state == L_ORDINARILY_UNSAFE) {
-                        ret.push_back(binary_str_to_int(*it));
+                        ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                     }
                 }
 
                 //  Pri2：最小路径中的locally strongly unsafe邻居
                 if (ret.empty()) {
                     for (auto it=neighs_in_min_path.begin(); it!=neighs_in_min_path.end(); ++it) {
+                        if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                            continue;
+                        }
                         NodeState temp_state = node_state_map[*it];
                         if (temp_state == L_STRONGLY_UNSAFE) {
-                            ret.push_back(binary_str_to_int(*it));
+                            ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                         }
                     }
                 }
@@ -169,9 +202,12 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
                 //  Pri3：非最小路径中的locally ordinarily unsafe邻居
                 if (ret.empty()) {
                     for (auto it=neighs_out_min_path.begin(); it!=neighs_out_min_path.end(); ++it) {
+                        if (passed.find(binary_str_to_int(*it)) != passed.end()) {
+                            continue;
+                        }
                         NodeState temp_state = node_state_map[*it];
                         if (temp_state == L_ORDINARILY_UNSAFE) {
-                            ret.push_back(binary_str_to_int(*it));
+                            ret.push_back(cube->getFirstDiffDirection(cur_id, *it));
                         }
                     }
                 }
@@ -186,6 +222,7 @@ vector<int> Routing::getPossibleDirection(int cur, int dst) {
 vector<NodeInfo> Routing::forward(Message &s) {
     vector<NodeInfo> ret = {};
     vector<NodeInfo> infos = s.rpath[0];
+
     for (int i = 0; i < infos.size(); ++i) {
 //        vector<CubeNode *> temp_dsts;
 //        for (int k=0; k<infos[i].dsts.size(); ++k){
@@ -193,10 +230,16 @@ vector<NodeInfo> Routing::forward(Message &s) {
 //        }
 //        (*cube)[infos[i].cur] -> temp_dsts;
         vector<NodeInfo> temp_infos = forwardOne(s, infos[i]);
+        
+        for (auto it=temp_infos.begin(); it!=temp_infos.end(); ++it) {
+            assert(!(*cube)[it->cur]->fault);
+        }
+
         for (int k = 0; k < temp_infos.size(); ++k) {
             ret.push_back(temp_infos[k]);
         }
     }
+
     return ret;
 }
 
@@ -233,7 +276,8 @@ vector<NodeInfo> Routing::forwardOne(Message &s, NodeInfo cur_info) {
 
     //  决策各个目标节点对应的可能递送方向，填好direction_to_dsts；如果确定无法递送则填入delivery_record[-2]
     for (auto dst_it = dsts.begin(); dst_it != dsts.end(); ++dst_it) {
-        vector<int> possible_directions;    //  每个目标节点对应的下一跳可能方向
+        vector<int> possible_directions = getPossibleDirection(cur_info.cur, *dst_it, cur_info.passed);    
+        //  每个目标节点对应的下一跳可能方向
         if (possible_directions.empty()) {
             (delivery_record.find(-2)->second).push_back(*dst_it);
         } else {
@@ -294,16 +338,15 @@ vector<NodeInfo> Routing::forwardOne(Message &s, NodeInfo cur_info) {
         }
         Buffer *temp_buffer = (*cube)[temp_cur]->buffers[i];
         takeBuffer(temp_buffer);
-        ret.push_back(NodeInfo(temp_cur, temp_buffer, temp_dsts));
-        s.passed.insert(temp_cur);
+        ret.push_back(NodeInfo(temp_cur, temp_buffer, temp_dsts, cur_info.passed));
     }
     if (!delivery_record[-1].empty()) {
-        ret.push_back(NodeInfo(cur_info.cur, cur_info.buffer, delivery_record[-1]));
+        ret.push_back(NodeInfo(cur_info.cur, cur_info.buffer, delivery_record[-1], cur_info.passed));
     }
     if (!delivery_record[-2].empty()) {
         s.fault_delivery += delivery_record[-2].size();
         if (delivery_record[-1].empty()) {
-            ret.push_back(NodeInfo(cur_info.cur, cur_info.buffer, {}));
+            ret.push_back(NodeInfo(cur_info.cur, cur_info.buffer, {}, cur_info.passed));
         }
     }
 

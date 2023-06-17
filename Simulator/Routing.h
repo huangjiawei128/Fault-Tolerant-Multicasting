@@ -16,20 +16,18 @@ class Routing {
 public:
     int n;
     Cube *cube;
-    vector<NodeInfo> next;
 
 public:
     Routing(Cube *cube) {
         this->cube = cube;
         n = cube->getDimensionsNum();
-        next = {};
     }
 
     void takeBuffer(Buffer *buffer);
 
     bool testBuffer(Buffer *buffer);
 
-    vector<int> getPossibleDirection(int cur, int dst);
+    vector<int> getPossibleDirection(int cur, int dst, unordered_set<int>& passed);
 
     vector<NodeInfo> forward(Message &s);
 
