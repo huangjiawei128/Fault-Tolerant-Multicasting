@@ -39,15 +39,15 @@ public:
 
     CubeNode *operator[](int digit_id);
 
+    //  将指定节点置为故障节点
     void setFault(string id);
 
     void setFault(int digit_id);
 
+    //  判断指定节点是否为故障节点
     bool isFaulty(string id);
 
     bool isFaulty(int digit_id);
-
-    void clearAll();
 
     int getDimensionsNum() { return n; }
 
@@ -57,8 +57,10 @@ public:
         delete[] head;
     }
 
+    //  设置网络局部信息，主要是maximal safe subcube(msc)及其中各节点的局部状态
     void setMscs();
 
+    //  与网络信息相关的一系列方法，方法的具体含义如方法名所示
     pair<SubcubeState, NodeStateMap> getSubcubeStateInfo(string subcube);
 
     vector<string> getSubcubeChildren(string subcube);

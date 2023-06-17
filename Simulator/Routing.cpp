@@ -218,19 +218,13 @@ vector<int> Routing::getPossibleDirection(int cur, int dst, unordered_set<int>& 
     return ret;
 }
 
-//  根据消息中首flit所在的所有节点的NodeInfo，得到所有下一跳节点的NodeInfo
 vector<NodeInfo> Routing::forward(Message &s) {
     vector<NodeInfo> ret = {};
     vector<NodeInfo> infos = s.rpath[0];
 
     for (int i = 0; i < infos.size(); ++i) {
-//        vector<CubeNode *> temp_dsts;
-//        for (int k=0; k<infos[i].dsts.size(); ++k){
-//            temp_dsts.push_back((*cube)[infos[i].dsts[k]]);
-//        }
-//        (*cube)[infos[i].cur] -> temp_dsts;
         vector<NodeInfo> temp_infos = forwardOne(s, infos[i]);
-        
+
         for (auto it=temp_infos.begin(); it!=temp_infos.end(); ++it) {
             assert(!(*cube)[it->cur]->fault);
         }
@@ -243,7 +237,6 @@ vector<NodeInfo> Routing::forward(Message &s) {
     return ret;
 }
 
-//  根据消息中首flit所在的某一个节点的NodeInfo，得到所有下一跳节点的NodeInfo
 vector<NodeInfo> Routing::forwardOne(Message &s, NodeInfo cur_info) {
     //  若目标节点为空，直接返回
     vector<NodeInfo> ret;

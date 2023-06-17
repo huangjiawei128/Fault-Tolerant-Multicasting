@@ -36,14 +36,6 @@ void CubeNode::setLinkBuffer() {
     }
 }
 
-void CubeNode::bufferPlus(Buffer *buff, int n) {
-    buff->bufferPlus(n);
-}
-
-void CubeNode::bufferMin(Buffer *buff, int n) {
-    buff->bufferMin(n);
-}
-
 void CubeNode::clearBuffer() {
     for (int i = 0; i < n; ++i) {
         buffers[i]->link_used = false;

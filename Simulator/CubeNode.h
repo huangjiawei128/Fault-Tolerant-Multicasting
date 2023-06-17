@@ -42,10 +42,6 @@ public:
 
     void setLinkBuffer();
 
-    void bufferPlus(Buffer *buff, int n);
-
-    void bufferMin(Buffer *buff, int n);
-
     void clearBuffer();
 
     ~CubeNode() {

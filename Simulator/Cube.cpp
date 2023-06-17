@@ -42,12 +42,6 @@ CubeNode *Cube::operator[](int digit_id) {
     return head + digit_id;
 }
 
-void Cube::clearAll() {
-    for (int i = 0; i < node_num; i++) {
-        (head + i)->clearBuffer();
-    }
-}
-
 void Cube::setMscs() {
     //  BFS
     queue<string> qu;
@@ -63,7 +57,7 @@ void Cube::setMscs() {
         pair<SubcubeState, NodeStateMap> cur_state_info = getSubcubeStateInfo(cur_subcube);
         SubcubeState cur_state = cur_state_info.first;
         NodeStateMap cur_node_state_map = cur_state_info.second;
-        vector<string> cur_subcube_children;
+        vector<string> cur_subcube_children = getSubcubeChildren(cur_subcube);
         if (cur_state == SAFE) {
             msc_info.insert(make_pair(cur_subcube, cur_node_state_map));
             for (auto it = cur_subcube_children.begin(); it != cur_subcube_children.end(); ++it) {
@@ -95,7 +89,7 @@ pair<SubcubeState, NodeStateMap> Cube::getSubcubeStateInfo(string subcube) {
 
     bool flag = true;
     while (flag) {
-        flag = false;   //  发生状态修改后再将flag置为true
+        flag = false;   //  若有节点发生状态修改，将flag置为true
         for (int i = 0; i < node_num; ++i) {
             string node_id = node_ids[i];
             NodeState old_state = node_state_map[node_id];
@@ -117,15 +111,15 @@ pair<SubcubeState, NodeStateMap> Cube::getSubcubeStateInfo(string subcube) {
         }
     }
 
-    SubcubeState subcubeState = FULLY_UNSAFE;
+    SubcubeState subcube_state = FULLY_UNSAFE;
     for (auto it = node_state_map.begin(); it != node_state_map.end(); ++it) {
         if (it->second = L_SAFE) {
-            subcubeState = SAFE;
+            subcube_state = SAFE;
             break;
         }
     }
 
-    return make_pair(subcubeState, node_state_map);
+    return make_pair(subcube_state, node_state_map);
 }
 
 vector<string> Cube::getSubcubeChildren(string subcube) {
