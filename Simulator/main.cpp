@@ -4,10 +4,18 @@
 #include "Event.h"
 #include <math.h>
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 int main() {
+    ofstream out;
+    string file_path = "../result/fault_nodes_num=";
+    file_path = file_path + to_string(FAULT_NODES_NUM) + ".csv";
+    out.open(file_path);
+    out << "link_rate,fail_percent,latency,throughput" << endl;
+
     Routing *route = NULL;
     int node_num = pow(2, N_CUBE);
     Cube *cube = NULL;
@@ -90,10 +98,13 @@ int main() {
         double throughput = link_rate * ((float) event->message_success_num / msg_num);
         //  throughput(message/node/cycle) = link_rate * (成功完成组播的消息数 / 已产生的总消息数)
 
-        cout << endl << endl << "link_rate: " << link_rate << "     complete: " << event->message_completion_num
+        cout << endl << endl << "link rate: " << link_rate << "     complete: " << event->message_completion_num
              << "     in the network: " << size << "    fail percent: " << fail_percent << endl
-             << "average latency: " << latency << "     throughput: " << throughput
+             << "latency: " << latency << "     throughput: " << throughput
              << endl << endl;
+
+        out << link_rate << "," << fail_percent << ","
+            << latency << "," << throughput << endl;
 
         /************************************************************************************
 
@@ -122,6 +133,8 @@ int main() {
 
         link_rate += INC_LINK_RATE;
     }
+
+    out.close();
 
     return 1;
 }

@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <iostream>
 #include <unordered_map>
+#include <fstream>
 
 using namespace std;
 
@@ -198,6 +199,14 @@ int main() {
     for (auto it = r3.begin(); it != r3.end(); ++it) {
         cout << *it << endl;
     }
+
+    cout << "----------" << endl;
+    ofstream out;
+    string file_path = "../result/fault_nodes_num=";
+    file_path = file_path + to_string(20);
+    out.open(file_path);
+    out << "123" << endl;
+    out.close();
 
     return 0;
 }
