@@ -1,0 +1,25 @@
+D:\学习\高性能计算机互连理论与方法\高性能课程大作业\MySimulator\cmake-build-debug\Simulator.exe
+
+
+link_rate: 0.001     complete: 94     in the network: 3    fail percent: 0.542553
+average latency: 24.3085     throughput: 0.000443299
+
+
+
+link_rate: 0.002     complete: 133     in the network: 60    fail percent: 0.571429
+average latency: 36.6316     throughput: 0.000590674
+
+
+
+link_rate: 0.003     complete: 152     in the network: 137    fail percent: 0.519737
+average latency: 54.9079     throughput: 0.000757785
+
+
+
+
+link_rate: 0.004     complete: 136     in the network: 249    fail percent: 0.676471
+average latency: 69.6471     throughput: 0.000457143
+
+max_throughput: 0.000757785
+
+Process finished with exit code 1

@@ -23,7 +23,7 @@ int main() {
     double max_throughput = 0;
 
     //  link_rate控制消息产生速率
-    for (float link_rate = 0.002; link_rate < 1 && !end;) {
+    for (float link_rate = 0.001; link_rate < 1 && !end;) {
         cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络拓扑模块
         route = new Routing(cube);  //  初始化路由模块
         event = new Event(route);   //  初始化事件模块
@@ -101,9 +101,7 @@ int main() {
 
         *************************************************************************************/
         //  throughput达到最大值，即饱和点时，停止迭代
-        if (throughput > max_throughput
-            && (throughput - max_throughput) / max_throughput > 0.01
-            && size < MSG_THRESHOLD)
+        if (throughput > max_throughput)
             max_throughput = throughput;
         else {
             cout << "max_throughput: " << max_throughput << endl;
@@ -122,7 +120,7 @@ int main() {
         delete cube;
         delete event;
 
-        link_rate += 0.002;
+        link_rate += 0.001;
     }
 
     return 1;

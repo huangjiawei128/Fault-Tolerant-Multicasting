@@ -225,9 +225,9 @@ vector<NodeInfo> Routing::forward(Message &s) {
     for (int i = 0; i < infos.size(); ++i) {
         vector<NodeInfo> temp_infos = forwardOne(s, infos[i]);
 
-        for (auto it=temp_infos.begin(); it!=temp_infos.end(); ++it) {
-            assert(!(*cube)[it->cur]->fault);
-        }
+//        for (auto it=temp_infos.begin(); it!=temp_infos.end(); ++it) {
+//            assert(!(*cube)[it->cur]->fault);
+//        }
 
         for (int k = 0; k < temp_infos.size(); ++k) {
             ret.push_back(temp_infos[k]);

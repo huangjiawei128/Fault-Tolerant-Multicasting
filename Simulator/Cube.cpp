@@ -70,11 +70,11 @@ void Cube::setMscs() {
         }
     }
 
-    cout << "msc: " << endl;
-    for (auto it=msc_info.begin(); it!=msc_info.end(); ++it) {
-        cout << it->first << endl;
-    }
-    cout << endl << endl;
+//    cout << "msc: " << endl;
+//    for (auto it=msc_info.begin(); it!=msc_info.end(); ++it) {
+//        cout << it->first << endl;
+//    }
+//    cout << endl << endl;
 
     return;
 }

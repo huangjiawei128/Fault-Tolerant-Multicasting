@@ -1,96 +1,84 @@
 D:\学习\高性能计算机互连理论与方法\高性能课程大作业\MySimulator\cmake-build-debug\Simulator.exe
 
 
-link_rate: 0.002     complete: 995     in the network: 5    fail percent: 0
-average latency: 23.9276     throughput: 0.00199
+link_rate: 0.002     complete: 187     in the network: 6    fail percent: 0
+average latency: 23.7914     throughput: 0.00193782
 
 
 
-link_rate: 0.004     complete: 988     in the network: 12    fail percent: 0
-average latency: 29.5121     throughput: 0.003952
+link_rate: 0.004     complete: 373     in the network: 12    fail percent: 0
+average latency: 29.933     throughput: 0.00387532
 
 
 
-link_rate: 0.006     complete: 981     in the network: 19    fail percent: 0
-average latency: 34.8094     throughput: 0.005886
+link_rate: 0.006     complete: 383     in the network: 17    fail percent: 0
+average latency: 33.3734     throughput: 0.005745
 
 
 
-link_rate: 0.008     complete: 976     in the network: 26    fail percent: 0
-average latency: 39.4959     throughput: 0.007808
+link_rate: 0.008     complete: 375     in the network: 27    fail percent: 0
+average latency: 38.7653     throughput: 0.0075
 
 
 
-link_rate: 0.01     complete: 964     in the network: 39    fail percent: 0
-average latency: 43.9046     throughput: 0.00964
+link_rate: 0.01     complete: 359     in the network: 41    fail percent: 0
+average latency: 42.7298     throughput: 0.008975
 
 
 
-link_rate: 0.012     complete: 951     in the network: 50    fail percent: 0
-average latency: 47.4238     throughput: 0.011412
+link_rate: 0.012     complete: 346     in the network: 54    fail percent: 0
+average latency: 46.4104     throughput: 0.01038
 
 
 
-link_rate: 0.014     complete: 942     in the network: 59    fail percent: 0
-average latency: 52.9087     throughput: 0.013188
+link_rate: 0.014     complete: 340     in the network: 60    fail percent: 0
+average latency: 52.0059     throughput: 0.0119
 
 
 
-link_rate: 0.016     complete: 927     in the network: 73    fail percent: 0
-average latency: 55.8975     throughput: 0.014832
+link_rate: 0.016     complete: 323     in the network: 77    fail percent: 0
+average latency: 54.8266     throughput: 0.01292
 
 
 
-link_rate: 0.018     complete: 908     in the network: 94    fail percent: 0
-average latency: 59.5826     throughput: 0.016344
+link_rate: 0.018     complete: 309     in the network: 91    fail percent: 0
+average latency: 57.411     throughput: 0.013905
 
 
 
-link_rate: 0.02     complete: 902     in the network: 101    fail percent: 0
-average latency: 64.0632     throughput: 0.01804
+link_rate: 0.02     complete: 293     in the network: 108    fail percent: 0
+average latency: 62.6041     throughput: 0.01465
 
 
 
-
-link_rate: 0.022     complete: 886     in the network: 117    fail percent: 0
-average latency: 66.0971     throughput: 0.019492
-
-
-
-link_rate: 0.024     complete: 873     in the network: 127    fail percent: 0
-average latency: 69.4696     throughput: 0.020952
+link_rate: 0.022     complete: 280     in the network: 121    fail percent: 0
+average latency: 61.6107     throughput: 0.0154
 
 
 
-link_rate: 0.026     complete: 852     in the network: 150    fail percent: 0
-average latency: 73.5716     throughput: 0.0221299
+link_rate: 0.024     complete: 265     in the network: 135    fail percent: 0
+average latency: 61.717     throughput: 0.0159
 
 
 
-link_rate: 0.028     complete: 824     in the network: 179    fail percent: 0
-average latency: 78.5255     throughput: 0.023072
+link_rate: 0.026     complete: 253     in the network: 147    fail percent: 0
+average latency: 60.1779     throughput: 0.016445
 
 
 
-link_rate: 0.03     complete: 810     in the network: 192    fail percent: 0
-average latency: 77.5259     throughput: 0.0242757
+link_rate: 0.028     complete: 237     in the network: 166    fail percent: 0
+average latency: 66.6667     throughput: 0.01659
 
 
 
-
-link_rate: 0.032     complete: 782     in the network: 219    fail percent: 0
-average latency: 80.5141     throughput: 0.025024
-
-
-
-link_rate: 0.034     complete: 776     in the network: 228    fail percent: 0
-average latency: 78.241     throughput: 0.0263576
+link_rate: 0.03     complete: 225     in the network: 177    fail percent: 0
+average latency: 66.0267     throughput: 0.016875
 
 
 
-link_rate: 0.036     complete: 734     in the network: 269    fail percent: 0
-average latency: 87.2766     throughput: 0.026424
+link_rate: 0.032     complete: 203     in the network: 197    fail percent: 0
+average latency: 67.3005     throughput: 0.01624
 
-max_throughput: 0.0263576
+max_throughput: 0.016875
 
 Process finished with exit code 1
