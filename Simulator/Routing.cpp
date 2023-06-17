@@ -222,6 +222,7 @@ vector<NodeInfo> Routing::forward(Message &s) {
     vector<NodeInfo> ret = {};
     vector<NodeInfo> infos = s.rpath[0];
 
+    //  依次对首flit所在的每个当前节点计算下一跳节点列表
     for (int i = 0; i < infos.size(); ++i) {
         vector<NodeInfo> temp_infos = forwardOne(s, infos[i]);
 

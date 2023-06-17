@@ -36,6 +36,7 @@ Message *Event::genMsg() {
 }
 
 void Event::forwardMsg(Message &s) {
+    //  若消息从生成至开始传输的等待期未结束，则不进行传输
     if (s.begin_trans > 0) {
         s.begin_trans--;
         return;
@@ -44,8 +45,9 @@ void Event::forwardMsg(Message &s) {
     if (s.begin_trans <= 0)
         s.count++;
 
+    //  若某个尾flit到达目标节点/无法决策下一跳的节点，在所有flit的所在节点信息列表中删除该节点信息，并恢复消息占据的buffer容量
     for (auto last_it = s.rpath[MESSAGE_LENGTH - 1].begin(); last_it != s.rpath[MESSAGE_LENGTH - 1].end();) {
-        if (last_it->dsts.empty()) {    //  某个尾flit到达终点或无法决策的点
+        if (last_it->dsts.empty()) {
             if (last_it->buffer != NULL)
                 last_it->buffer->bufferPlus(MESSAGE_LENGTH);
             int cur = last_it->cur;
@@ -63,7 +65,7 @@ void Event::forwardMsg(Message &s) {
         }
     }
 
-    if (s.rpath[MESSAGE_LENGTH - 1].size() == 0) {    //  组播结束
+    if (s.rpath[MESSAGE_LENGTH - 1].size() == 0) {  //  组播已结束，更改消息模块的某些统计值
         s.finish = true;
 
         total_cycle += s.count;
@@ -72,6 +74,7 @@ void Event::forwardMsg(Message &s) {
             message_success_num += 1;
         }
     } else {    //  组播未结束
+        //  所有非首flit的所在节点信息列表更新为上一cycle其前面flit的所在节点信息列表
         vector<NodeInfo> next = route->forward(s);
         int i = 1;
         vector<NodeInfo> temp1, temp2;
@@ -84,7 +87,7 @@ void Event::forwardMsg(Message &s) {
         }
         s.rpath[0] = next;
 
-        //  判断尾flit可以释放的buffer，即在temp2中但不在last_infos中
+        //  若有尾flit发生移动，则其移动前消息占据的buffer容量可恢复
         vector<NodeInfo> last_infos = s.rpath[MESSAGE_LENGTH - 1];
         for (auto temp_it = temp2.begin(); temp_it != temp2.end(); ++temp_it) {
             if (temp_it->buffer == NULL)

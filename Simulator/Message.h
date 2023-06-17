@@ -25,7 +25,7 @@ public:
     int src;    //  源节点
     vector<int> dsts;   //  目标节点
     int begin_trans;    //  消息从生成至开始传输需要等待的cycle数
-    vector<vector<NodeInfo>> rpath; //  第i个flit所在的节点信息列表由rpath[i]记录
+    vector<vector<NodeInfo>> rpath; //  第i个flit的所在节点信息列表由rpath[i]记录
     int count;  //  消息完成组播消耗的cycle数
     int fault_delivery; //  无法收到消息的目标节点数
     bool finish;    //  消息是否完成组播

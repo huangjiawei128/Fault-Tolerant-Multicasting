@@ -23,7 +23,7 @@ int main() {
     double max_throughput = 0;
 
     //  link_rate控制消息产生速率
-    for (float link_rate = 0.001; link_rate < 1 && !end;) {
+    for (float link_rate = ORI_LINK_RATE; link_rate < 1 && !end;) {
         cube = new Cube(N_CUBE, BUFFER_SIZE);   //  初始化网络拓扑模块
         route = new Routing(cube);  //  初始化路由模块
         event = new Event(route);   //  初始化事件模块
@@ -83,12 +83,12 @@ int main() {
 
         *****************************************************************************/
         int size = messages.size();
-        double latency = (float) event->total_cycle / event->message_completion_num;
-        //  latency(cycle) = 完成组播的消息消耗的总circle数 / 完成组播的消息数
-        double throughput = link_rate * ((float) event->message_success_num / msg_num);
-        //  throughput(message/node/cycle) = link_rate * (成功完成组播的消息数 / 已产生的总消息数)
         double fail_percent = 1 - (double)event->message_success_num / event->message_completion_num;
         //  fail percent = 1 - 成功完成组播的消息数 / 完成组播的消息数
+        double latency = (float) event->total_cycle / event->message_completion_num;
+        //  latency(cycle) = 完成组播的消息消耗的总cycle数 / 完成组播的消息数
+        double throughput = link_rate * ((float) event->message_success_num / msg_num);
+        //  throughput(message/node/cycle) = link_rate * (成功完成组播的消息数 / 已产生的总消息数)
 
         cout << endl << endl << "link_rate: " << link_rate << "     complete: " << event->message_completion_num
              << "     in the network: " << size << "    fail percent: " << fail_percent << endl
@@ -120,7 +120,7 @@ int main() {
         delete cube;
         delete event;
 
-        link_rate += 0.001;
+        link_rate += INC_LINK_RATE;
     }
 
     return 1;
