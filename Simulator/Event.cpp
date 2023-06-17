@@ -1,10 +1,9 @@
 #include"Event.h"
 
 Event::Event(Routing *route) {
-    this->total_circle = 0;
+    this->total_cycle = 0;
     this->message_completion_num = 0;
     this->message_success_num = 0;
-    this->total_success_delivery = 0;
     this->route = route;
     this->cube = route->cube;
     this->n = route->n;
@@ -28,7 +27,7 @@ void Event::setMscsForCube() {
     cube->setMscs();
 }
 
-Message *Event::genMsg() {  // generate a message
+Message *Event::genMsg() {
     vector<int> dsts = random_select(normal_nodes_digit_ids, DST_NODES_NUM + 1);
     int src = dsts.back();
     dsts.pop_back();
@@ -67,12 +66,11 @@ void Event::forwardMsg(Message &s) {
     if (s.rpath[MESSAGE_LENGTH - 1].size() == 0) {    //  组播结束
         s.finish = true;
 
-        total_circle += s.count;
+        total_cycle += s.count;
         message_completion_num += 1;
         if (s.fault_delivery == 0) {
             message_success_num += 1;
         }
-        total_success_delivery += DST_NODES_NUM - FAULT_NODES_NUM;
     } else {    //  组播未结束
         vector<NodeInfo> next = route->forward(s);
         int i = 1;

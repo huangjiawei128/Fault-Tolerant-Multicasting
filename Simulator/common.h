@@ -12,7 +12,7 @@ using namespace std;
 #define N_CUBE 6
 #define MESSAGE_LENGTH 16
 #define BUFFER_SIZE 64
-#define FAULT_NODES_NUM 5
+#define FAULT_NODES_NUM 20
 #define DST_NODES_NUM 10
 #define PROCESS_TIME 16
 

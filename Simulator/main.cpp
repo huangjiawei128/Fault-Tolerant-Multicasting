@@ -28,7 +28,7 @@ int main() {
         route = new Routing(cube);  //  初始化路由模块
         event = new Event(route);   //  初始化事件模块
         event->setFaultNodes(fault_nodes_digit_ids);    //  设置故障节点
-        event->setMscsForCube();    //  生成网络拓扑中的局部信息（容错算法中使用）
+        event->setMscsForCube();    //  生成网络拓扑的局部信息（容错算法中使用）
 
         float msg_per_cir = link_rate * node_num;   //  link rate(message/node/cycle)表示单位时间内每个节点产生的消息数
 
@@ -83,7 +83,7 @@ int main() {
 
         *****************************************************************************/
         int size = messages.size();
-        double latency = (float) event->total_circle / event->message_completion_num;
+        double latency = (float) event->total_cycle / event->message_completion_num;
         //  latency(cycle) = 完成组播的消息消耗的总circle数 / 完成组播的消息数
         double throughput = link_rate * ((float) event->message_success_num / msg_num);
         //  throughput(message/node/cycle) = link_rate * (成功完成组播的消息数 / 已产生的总消息数)

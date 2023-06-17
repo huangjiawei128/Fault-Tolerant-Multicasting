@@ -10,7 +10,7 @@ void Routing::takeBuffer(Buffer *buffer) {
     assert(!buffer->link_used);
     assert(buffer->r >= MESSAGE_LENGTH);
     buffer->link_used = true;
-    buffer->r -= MESSAGE_LENGTH;
+    buffer->bufferMin(MESSAGE_LENGTH);
 }
 
 vector<int> Routing::getPossibleDirection(int cur, int dst, unordered_set<int>& passed) {

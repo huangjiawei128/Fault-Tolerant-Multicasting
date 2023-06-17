@@ -70,6 +70,12 @@ void Cube::setMscs() {
         }
     }
 
+    cout << "msc: " << endl;
+    for (auto it=msc_info.begin(); it!=msc_info.end(); ++it) {
+        cout << it->first << endl;
+    }
+    cout << endl << endl;
+
     return;
 }
 
@@ -113,7 +119,7 @@ pair<SubcubeState, NodeStateMap> Cube::getSubcubeStateInfo(string subcube) {
 
     SubcubeState subcube_state = FULLY_UNSAFE;
     for (auto it = node_state_map.begin(); it != node_state_map.end(); ++it) {
-        if (it->second = L_SAFE) {
+        if (it->second == L_SAFE) {
             subcube_state = SAFE;
             break;
         }

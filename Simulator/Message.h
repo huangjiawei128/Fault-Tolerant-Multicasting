@@ -21,14 +21,14 @@ class NodeInfo;
 ************************/
 class Message {
 public:
-    int length;            //   measured by flits
-    int src;                    //  the source of the message
-    vector<int> dsts;   //  the destinations of the message
-    int begin_trans;  //    when a message is generated ,it needs some time until transmitting, begintrans record this
-    vector<vector<NodeInfo>> rpath; //    the ith flit now at routpath[i][j].cur and take routpath[i][j].buffer
-    int count;  //  the total time a message  consumed
-    int fault_delivery;    //  the dsts num delivered faultily
-    bool finish;    //  delivery finished?
+    int length; //  消息长度
+    int src;    //  源节点
+    vector<int> dsts;   //  目标节点
+    int begin_trans;    //  消息从生成至开始传输需要等待的cycle数
+    vector<vector<NodeInfo>> rpath; //  第i个flit所在的节点信息列表由rpath[i]记录
+    int count;  //  消息完成组播消耗的cycle数
+    int fault_delivery; //  无法收到消息的目标节点数
+    bool finish;    //  消息是否完成组播
 
 public:
     Message(int src, vector<int> dsts) {
